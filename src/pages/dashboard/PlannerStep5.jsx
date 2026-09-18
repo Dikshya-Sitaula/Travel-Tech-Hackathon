@@ -59,6 +59,10 @@ const PlannerStep5 = ({ onBack, preferences }) => {
     </div>
   );
 
+  const selectedActivityNames = Array.isArray(preferences.selectedActivities)
+    ? preferences.selectedActivities.map((item) => typeof item === 'string' ? item : (item.name || 'Activity')).join(', ')
+    : (Array.isArray(preferences.style) ? preferences.style.join(', ') : (preferences.style || 'Trekking, Day Activities'));
+
   const calculateDays = () => {
     if (preferences.startDate && preferences.endDate) {
       const start = new Date(preferences.startDate);
@@ -88,7 +92,7 @@ const PlannerStep5 = ({ onBack, preferences }) => {
 
         <Card style={{ padding: '1.25rem', borderRadius: 'var(--radius-lg)' }}>
           <h3 style={{ fontSize: '1.05rem', marginBottom: '1rem', color: 'var(--color-dark-green)', fontFamily: 'var(--font-heading)' }}>Style & Preferences</h3>
-          <SummaryItem label="Travel Style" value={Array.isArray(preferences.style) ? preferences.style.join(', ') : (preferences.style || 'Adventure, Nature')} />
+          <SummaryItem label="Activities" value={selectedActivityNames} />
           <SummaryItem label="Discovery" value={Array.isArray(preferences.discoveryPreferences) ? preferences.discoveryPreferences.join(', ') : (preferences.discoveryPreferences || 'Less-Crowded Places')} />
           <SummaryItem label="Travel Pace" value={preferences.travelPace || 'Balanced'} />
           <SummaryItem label="Social Preference" value={preferences.socialPreference || 'Just Me'} />
