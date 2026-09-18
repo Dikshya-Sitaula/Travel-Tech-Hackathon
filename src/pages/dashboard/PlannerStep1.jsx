@@ -1,10 +1,23 @@
 import React, { useState } from 'react';
 import { Button } from '../../components/ui/Button';
 import { ArrowRight, MapPin, Calendar, Users, Wallet } from 'lucide-react';
+import { DestinationSelector } from '../../components/ui/DestinationSelector';
+import { nepalDestinations } from '../../data/nepalDestinations';
+
+const createDestinationState = (destination, source = 'preset') => ({
+  name: destination.name,
+  subtitle: destination.subtitle || '',
+  province: destination.province || '',
+  latitude: destination.latitude,
+  longitude: destination.longitude,
+  source
+});
 
 const PlannerStep1 = ({ onNext, defaultValues }) => {
+  const defaultDestination = nepalDestinations.find(({ name }) => name === defaultValues.destination) || nepalDestinations.find(({ name }) => name === 'Pokhara');
   const [data, setData] = useState({
-    destination: defaultValues.destination || 'Pokhara',
+    destination: defaultDestination.name,
+    destinationDetails: defaultValues.destinationDetails || createDestinationState(defaultDestination),
     customDestination: defaultValues.customDestination || '',
     startDate: defaultValues.startDate || new Date().toISOString().split('T')[0],
     endDate: defaultValues.endDate || new Date(Date.now() + 4*86400000).toISOString().split('T')[0],
@@ -12,17 +25,21 @@ const PlannerStep1 = ({ onNext, defaultValues }) => {
     budget: defaultValues.budget || 'Mid-range'
   });
 
-  const popularDestinations = [
-    'Kathmandu', 'Pokhara', 'Chitwan', 'Mustang', 'Everest Region'
-  ];
-
   const handleSelect = (field, val) => {
     setData(prev => ({ ...prev, [field]: val }));
   };
 
+  const handleDestinationSelect = (destination) => {
+    setData(prev => ({
+      ...prev,
+      destination: destination.name,
+      destinationDetails: destination,
+      customDestination: destination.source === 'map' ? destination.name : ''
+    }));
+  };
+
   const handleNext = () => {
-    const finalDestination = data.destination === 'Custom' ? (data.customDestination || 'Nepal') : data.destination;
-    onNext({ ...data, destination: finalDestination });
+    onNext({ ...data, destination: data.destinationDetails.name || data.destination });
   };
 
   return (
@@ -35,50 +52,7 @@ const PlannerStep1 = ({ onNext, defaultValues }) => {
         <label className="form-label" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: 600 }}>
           <MapPin size={18} color="var(--color-primary-green)" /> Destination
         </label>
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem', marginBottom: '1rem' }}>
-          {popularDestinations.map(dest => (
-            <div 
-              key={dest}
-              onClick={() => handleSelect('destination', dest)}
-              style={{
-                padding: '0.75rem 1.25rem',
-                borderRadius: 'var(--radius-md)',
-                border: '1.5px solid var(--color-gray-300)',
-                backgroundColor: data.destination === dest ? 'var(--color-light-mint)' : 'white',
-                color: data.destination === dest ? 'var(--color-dark-green)' : 'var(--color-dark-text)',
-                fontWeight: data.destination === dest ? 600 : 500,
-                cursor: 'pointer',
-                transition: 'all var(--transition-fast)'
-              }}
-            >
-              {dest}
-            </div>
-          ))}
-          <div 
-            onClick={() => handleSelect('destination', 'Custom')}
-            style={{
-              padding: '0.75rem 1.25rem',
-              borderRadius: 'var(--radius-md)',
-              border: '1.5px solid var(--color-gray-300)',
-              backgroundColor: data.destination === 'Custom' ? 'var(--color-light-mint)' : 'white',
-              color: data.destination === 'Custom' ? 'var(--color-dark-green)' : 'var(--color-dark-text)',
-              fontWeight: data.destination === 'Custom' ? 600 : 500,
-              cursor: 'pointer'
-            }}
-          >
-            + Custom Destination
-          </div>
-        </div>
-
-        {data.destination === 'Custom' && (
-          <input 
-            type="text" 
-            value={data.customDestination}
-            onChange={(e) => setData(prev => ({ ...prev, customDestination: e.target.value }))}
-            className="form-input" 
-            placeholder="Type your custom Nepalese destination (e.g. Bandipur, Langtang)..." 
-          />
-        )}
+        <DestinationSelector value={data.destinationDetails} onChange={handleDestinationSelect} />
       </div>
 
       {/* Trip Dates */}
