@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { NavLink, Outlet, useNavigate } from 'react-router-dom';
+import React from 'react';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { 
-  Mountain, LayoutDashboard, Map, SignalZero, 
-  Camera, ShieldAlert, LogOut, Menu, X 
+  LayoutDashboard, Map, Bot, 
+  Camera, ShieldAlert, LogOut, X 
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import '../../styles/dashboard.css';
@@ -13,23 +13,23 @@ export const Sidebar = ({ isOpen, setIsOpen }) => {
 
   const handleLogout = () => {
     logout();
-    navigate('/');
+    navigate('/login');
   };
 
   const navItems = [
     { path: '/dashboard', icon: LayoutDashboard, label: 'Dashboard', exact: true },
-    { path: '/dashboard/planner', icon: Map, label: 'Trip Planner' },
-    { path: '/dashboard/offline', icon: SignalZero, label: 'Offline Assistant' },
-    { path: '/dashboard/landmarks', icon: Camera, label: 'Landmark Explorer' },
-    { path: '/dashboard/sos', icon: ShieldAlert, label: 'SOS & Emergency' },
+    { path: '/trip-planner', icon: Map, label: 'AI Trip Planner' },
+    { path: '/assistant', icon: Bot, label: 'AI Assistant' },
+    { path: '/landmark-explorer', icon: Camera, label: 'Landmark Explorer' },
+    { path: '/sos', icon: ShieldAlert, label: 'Emergency SOS' },
   ];
 
   return (
     <>
       <div className={`sidebar ${isOpen ? 'open' : ''}`}>
-        <div className="sidebar-header">
-          <Mountain color="var(--color-green)" />
-          TrekSafe
+        <div className="sidebar-header" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '1.25rem 1.5rem' }}>
+          <img src="/assets/logo.png" alt="YatraX Logo" style={{ height: '2rem', width: 'auto', borderRadius: '4px', backgroundColor: 'white', padding: '2px' }} />
+          <span style={{ fontFamily: 'var(--font-heading)', fontWeight: 700, fontSize: '1.4rem', color: 'white' }}>YatraX</span>
           {isOpen && (
             <button className="mobile-close-btn" onClick={() => setIsOpen(false)} style={{ marginLeft: 'auto', color: 'white' }}>
               <X size={20} />
@@ -58,8 +58,8 @@ export const Sidebar = ({ isOpen, setIsOpen }) => {
               {user?.name?.charAt(0) || 'D'}
             </div>
             <div className="user-info">
-              <span className="user-name">{user?.name || 'Dikshya'}</span>
-              <span className="user-role">{user?.role || 'Traveler'}</span>
+              <span className="user-name">{user?.name || 'Traveler'}</span>
+              <span className="user-role">{user?.email || 'dikshya@yatrax.com'}</span>
             </div>
           </div>
           <button onClick={handleLogout} className="logout-btn">

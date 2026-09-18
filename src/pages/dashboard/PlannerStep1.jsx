@@ -1,95 +1,172 @@
 import React, { useState } from 'react';
 import { Button } from '../../components/ui/Button';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, MapPin, Calendar, Users, Wallet } from 'lucide-react';
 
 const PlannerStep1 = ({ onNext, defaultValues }) => {
   const [data, setData] = useState({
-    destination: defaultValues.destination || '',
-    startLocation: defaultValues.startLocation || '',
-    startDate: defaultValues.startDate || '',
-    endDate: defaultValues.endDate || '',
-    days: defaultValues.days || '5',
+    destination: defaultValues.destination || 'Pokhara',
+    customDestination: defaultValues.customDestination || '',
+    startDate: defaultValues.startDate || new Date().toISOString().split('T')[0],
+    endDate: defaultValues.endDate || new Date(Date.now() + 4*86400000).toISOString().split('T')[0],
     group: defaultValues.group || 'Solo',
-    budget: defaultValues.budget || 'Mid-range',
-    accommodation: defaultValues.accommodation || 'Hotel',
-    transportation: defaultValues.transportation || 'Mixed'
+    budget: defaultValues.budget || 'Mid-range'
   });
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setData(prev => ({ ...prev, [name]: value }));
+  const popularDestinations = [
+    'Kathmandu', 'Pokhara', 'Chitwan', 'Mustang', 'Everest Region'
+  ];
+
+  const handleSelect = (field, val) => {
+    setData(prev => ({ ...prev, [field]: val }));
   };
 
-  const handleSelect = (category, value) => {
-    setData(prev => ({ ...prev, [category]: value }));
+  const handleNext = () => {
+    const finalDestination = data.destination === 'Custom' ? (data.customDestination || 'Nepal') : data.destination;
+    onNext({ ...data, destination: finalDestination });
   };
-
-  const renderSelectable = (category, options) => (
-    <div className="selectable-grid" style={{ marginBottom: '1.5rem' }}>
-      {options.map(opt => (
-        <div 
-          key={opt}
-          className={`selectable-card ${data[category] === opt ? 'selected' : ''}`}
-          onClick={() => handleSelect(category, opt)}
-          style={{ textAlign: 'center', padding: '0.75rem' }}
-        >
-          {opt}
-        </div>
-      ))}
-    </div>
-  );
 
   return (
     <div className="animate-fade-in">
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '1.5rem', marginBottom: '2rem' }}>
+      <h2 style={{ fontSize: '1.25rem', marginBottom: '0.5rem', fontFamily: 'var(--font-heading)' }}>Step 1 — Trip Basics</h2>
+      <p style={{ color: 'var(--color-secondary-text)', marginBottom: '1.5rem' }}>Where and when are you traveling in Nepal?</p>
+
+      {/* Destination Selection */}
+      <div className="form-group" style={{ marginBottom: '2rem' }}>
+        <label className="form-label" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: 600 }}>
+          <MapPin size={18} color="var(--color-primary-green)" /> Destination
+        </label>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem', marginBottom: '1rem' }}>
+          {popularDestinations.map(dest => (
+            <div 
+              key={dest}
+              onClick={() => handleSelect('destination', dest)}
+              style={{
+                padding: '0.75rem 1.25rem',
+                borderRadius: 'var(--radius-md)',
+                border: '1.5px solid var(--color-gray-300)',
+                backgroundColor: data.destination === dest ? 'var(--color-light-mint)' : 'white',
+                color: data.destination === dest ? 'var(--color-dark-green)' : 'var(--color-dark-text)',
+                fontWeight: data.destination === dest ? 600 : 500,
+                cursor: 'pointer',
+                transition: 'all var(--transition-fast)'
+              }}
+            >
+              {dest}
+            </div>
+          ))}
+          <div 
+            onClick={() => handleSelect('destination', 'Custom')}
+            style={{
+              padding: '0.75rem 1.25rem',
+              borderRadius: 'var(--radius-md)',
+              border: '1.5px solid var(--color-gray-300)',
+              backgroundColor: data.destination === 'Custom' ? 'var(--color-light-mint)' : 'white',
+              color: data.destination === 'Custom' ? 'var(--color-dark-green)' : 'var(--color-dark-text)',
+              fontWeight: data.destination === 'Custom' ? 600 : 500,
+              cursor: 'pointer'
+            }}
+          >
+            + Custom Destination
+          </div>
+        </div>
+
+        {data.destination === 'Custom' && (
+          <input 
+            type="text" 
+            value={data.customDestination}
+            onChange={(e) => setData(prev => ({ ...prev, customDestination: e.target.value }))}
+            className="form-input" 
+            placeholder="Type your custom Nepalese destination (e.g. Bandipur, Langtang)..." 
+          />
+        )}
+      </div>
+
+      {/* Trip Dates */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1.5rem', marginBottom: '2rem' }}>
         <div className="form-group">
-          <label className="form-label">Destination</label>
-          <input type="text" name="destination" value={data.destination} onChange={handleChange} className="form-input" placeholder="Where do you want to go?" />
+          <label className="form-label" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: 600 }}>
+            <Calendar size={18} color="var(--color-primary-green)" /> Start Date
+          </label>
+          <input 
+            type="date" 
+            value={data.startDate} 
+            onChange={(e) => setData(prev => ({ ...prev, startDate: e.target.value }))} 
+            className="form-input" 
+          />
         </div>
         <div className="form-group">
-          <label className="form-label">Starting location</label>
-          <input type="text" name="startLocation" value={data.startLocation} onChange={handleChange} className="form-input" placeholder="Where are you starting from?" />
+          <label className="form-label" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: 600 }}>
+            <Calendar size={18} color="var(--color-primary-green)" /> End Date
+          </label>
+          <input 
+            type="date" 
+            value={data.endDate} 
+            onChange={(e) => setData(prev => ({ ...prev, endDate: e.target.value }))} 
+            className="form-input" 
+          />
         </div>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: '1.5rem', marginBottom: '2rem' }}>
-        <div className="form-group">
-          <label className="form-label">Start Date</label>
-          <input type="date" name="startDate" value={data.startDate} onChange={handleChange} className="form-input" />
+      {/* Traveling With */}
+      <div className="form-group" style={{ marginBottom: '2rem' }}>
+        <label className="form-label" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: 600 }}>
+          <Users size={18} color="var(--color-primary-green)" /> Traveling With
+        </label>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: '1rem' }}>
+          {['Solo', 'Couple', 'Friends', 'Family'].map(g => (
+            <div 
+              key={g}
+              onClick={() => handleSelect('group', g)}
+              style={{
+                textAlign: 'center',
+                padding: '0.85rem',
+                borderRadius: 'var(--radius-md)',
+                border: '1.5px solid var(--color-gray-300)',
+                backgroundColor: data.group === g ? 'var(--color-light-mint)' : 'white',
+                color: data.group === g ? 'var(--color-dark-green)' : 'var(--color-dark-text)',
+                fontWeight: data.group === g ? 600 : 500,
+                cursor: 'pointer'
+              }}
+            >
+              {g}
+            </div>
+          ))}
         </div>
-        <div className="form-group">
-          <label className="form-label">End Date</label>
-          <input type="date" name="endDate" value={data.endDate} onChange={handleChange} className="form-input" />
+      </div>
+
+      {/* Budget */}
+      <div className="form-group" style={{ marginBottom: '2.5rem' }}>
+        <label className="form-label" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: 600 }}>
+          <Wallet size={18} color="var(--color-primary-green)" /> Budget
+        </label>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: '1rem' }}>
+          {[
+            { label: 'Budget', desc: 'Backpacker / Local stays' },
+            { label: 'Mid-range', desc: 'Comfortable hotels & cafes' },
+            { label: 'Premium', desc: 'Luxury resorts & private transport' }
+          ].map(b => (
+            <div 
+              key={b.label}
+              onClick={() => handleSelect('budget', b.label)}
+              style={{
+                padding: '1rem',
+                borderRadius: 'var(--radius-md)',
+                border: '1.5px solid var(--color-gray-300)',
+                backgroundColor: data.budget === b.label ? 'var(--color-light-mint)' : 'white',
+                color: data.budget === b.label ? 'var(--color-dark-green)' : 'var(--color-dark-text)',
+                cursor: 'pointer'
+              }}
+            >
+              <div style={{ fontWeight: 600 }}>{b.label}</div>
+              <div style={{ fontSize: '0.8rem', color: 'var(--color-secondary-text)', marginTop: '0.2rem' }}>{b.desc}</div>
+            </div>
+          ))}
         </div>
-        <div className="form-group">
-          <label className="form-label">Number of days</label>
-          <input type="number" name="days" value={data.days} onChange={handleChange} className="form-input" min="1" />
-        </div>
       </div>
 
-      <div className="form-group">
-        <label className="form-label">Travel Group</label>
-        {renderSelectable('group', ['Solo', 'Couple', 'Friends', 'Family'])}
-      </div>
-
-      <div className="form-group">
-        <label className="form-label">Budget</label>
-        {renderSelectable('budget', ['Budget', 'Mid-range', 'Premium'])}
-      </div>
-      
-      <div className="form-group">
-        <label className="form-label">Accommodation</label>
-        {renderSelectable('accommodation', ['Hotel', 'Hostel', 'Homestay', 'Guesthouse', 'Camping', 'Flexible'])}
-      </div>
-
-      <div className="form-group">
-        <label className="form-label">Transportation</label>
-        {renderSelectable('transportation', ['Public transport', 'Private vehicle', 'Walking/Trekking', 'Mixed'])}
-      </div>
-
-      <div className="planner-actions" style={{ justifyContent: 'flex-end' }}>
-        <Button variant="primary" onClick={() => onNext(data)}>
-          Continue <ArrowRight size={16} />
+      <div className="planner-actions" style={{ display: 'flex', justifyContent: 'flex-end' }}>
+        <Button variant="primary" onClick={handleNext}>
+          Next: Travel Style <ArrowRight size={16} />
         </Button>
       </div>
     </div>

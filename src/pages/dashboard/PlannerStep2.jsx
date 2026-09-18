@@ -3,9 +3,7 @@ import { Button } from '../../components/ui/Button';
 import { ArrowRight, ArrowLeft } from 'lucide-react';
 
 const PlannerStep2 = ({ onNext, onBack, defaultValues }) => {
-  const [style, setStyle] = useState(defaultValues.style || []);
-  const [pace, setPace] = useState(defaultValues.pace || 'Balanced');
-  const [activityLevel, setActivityLevel] = useState(defaultValues.activityLevel || 'Moderate');
+  const [style, setStyle] = useState(defaultValues.style || ['Adventure', 'Nature']);
 
   const toggleStyle = (option) => {
     if (style.includes(option)) {
@@ -16,80 +14,66 @@ const PlannerStep2 = ({ onNext, onBack, defaultValues }) => {
   };
 
   const styleOptions = [
-    { label: 'Adventure', icon: '🏔️' },
-    { label: 'Nature', icon: '🌿' },
-    { label: 'Culture & History', icon: '🏛️' },
-    { label: 'Food', icon: '🍜' },
-    { label: 'Photography', icon: '📸' },
-    { label: 'Peace & Wellness', icon: '🧘' },
-    { label: 'Nightlife', icon: '🎉' },
-    { label: 'Off-the-beaten-path', icon: '🏕️' },
-    { label: 'Shopping', icon: '🛍️' },
-    { label: 'Extreme Activities', icon: '🧗' }
+    { label: 'Adventure', icon: '🏔️', desc: 'Trekking, rafting & thrill' },
+    { label: 'Nature', icon: '🌿', desc: 'Mountains, lakes & forests' },
+    { label: 'Photography', icon: '📸', desc: 'Scenic vistas & golden hour' },
+    { label: 'Culture', icon: '🏛️', desc: 'Temples, heritage & history' },
+    { label: 'Food', icon: '🍜', desc: 'Local delicacies & tea houses' },
+    { label: 'Wellness', icon: '🧘', desc: 'Yoga, relaxation & spa' },
+    { label: 'Spiritual', icon: '🕉️', desc: 'Monasteries & meditation' },
+    { label: 'Wildlife', icon: '🐅', desc: 'Safari, rhinos & bird watching' }
   ];
 
   const handleNext = () => {
-    onNext({ style, pace, activityLevel });
+    onNext({ style });
   };
 
   return (
     <div className="animate-fade-in">
-      <h2 style={{ fontSize: '1.25rem', marginBottom: '0.5rem' }}>What kind of traveler are you?</h2>
-      <p style={{ color: 'var(--color-gray-600)', marginBottom: '1.5rem' }}>Choose everything that sounds like you.</p>
+      <h2 style={{ fontSize: '1.25rem', marginBottom: '0.5rem', fontFamily: 'var(--font-heading)' }}>Step 2 — Travel Style</h2>
+      <p style={{ color: 'var(--color-secondary-text)', marginBottom: '1.5rem' }}>Select all travel styles you are interested in for this trip.</p>
 
-      <div className="selectable-grid" style={{ marginBottom: '2.5rem' }}>
-        {styleOptions.map(opt => (
-          <div 
-            key={opt.label}
-            className={`selectable-card ${style.includes(opt.label) ? 'selected' : ''}`}
-            onClick={() => toggleStyle(opt.label)}
-            style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.5rem', padding: '1rem' }}
-          >
-            <div style={{ fontSize: '1.5rem' }}>{opt.icon}</div>
-            <div style={{ fontSize: '0.875rem', fontWeight: 500, textAlign: 'center' }}>{opt.label}</div>
-            {style.includes(opt.label) && <div style={{ position: 'absolute', top: '0.5rem', right: '0.5rem', color: 'var(--color-blue)' }}>✓</div>}
-          </div>
-        ))}
-      </div>
-
-      <div className="form-group" style={{ marginBottom: '2rem' }}>
-        <h2 style={{ fontSize: '1.25rem', marginBottom: '1rem' }}>What's your travel pace?</h2>
-        <div className="selectable-grid">
-          {['Relaxed', 'Balanced', 'Fast-paced'].map(opt => (
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1.25rem', marginBottom: '2.5rem' }}>
+        {styleOptions.map(opt => {
+          const isSelected = style.includes(opt.label);
+          return (
             <div 
-              key={opt}
-              className={`selectable-card ${pace === opt ? 'selected' : ''}`}
-              onClick={() => setPace(opt)}
-              style={{ textAlign: 'center', padding: '0.75rem' }}
+              key={opt.label}
+              onClick={() => toggleStyle(opt.label)}
+              style={{
+                position: 'relative',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '1rem',
+                padding: '1.25rem',
+                borderRadius: 'var(--radius-md)',
+                border: isSelected ? '2px solid var(--color-primary-green)' : '1.5px solid var(--color-gray-300)',
+                backgroundColor: isSelected ? 'var(--color-light-mint)' : 'white',
+                cursor: 'pointer',
+                transition: 'all var(--transition-fast)'
+              }}
             >
-              {opt}
+              <div style={{ fontSize: '1.75rem' }}>{opt.icon}</div>
+              <div>
+                <div style={{ fontWeight: 600, fontSize: '1rem', color: isSelected ? 'var(--color-dark-green)' : 'var(--color-dark-text)' }}>
+                  {opt.label}
+                </div>
+                <div style={{ fontSize: '0.75rem', color: 'var(--color-secondary-text)' }}>{opt.desc}</div>
+              </div>
+              {isSelected && (
+                <div style={{ marginLeft: 'auto', fontWeight: 'bold', color: 'var(--color-primary-green)' }}>✓</div>
+              )}
             </div>
-          ))}
-        </div>
+          );
+        })}
       </div>
 
-      <div className="form-group">
-        <h2 style={{ fontSize: '1.25rem', marginBottom: '1rem' }}>How active do you want your trip to be?</h2>
-        <div className="selectable-grid">
-          {['Low', 'Moderate', 'High'].map(opt => (
-            <div 
-              key={opt}
-              className={`selectable-card ${activityLevel === opt ? 'selected' : ''}`}
-              onClick={() => setActivityLevel(opt)}
-              style={{ textAlign: 'center', padding: '0.75rem' }}
-            >
-              {opt}
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <div className="planner-actions">
+      <div className="planner-actions" style={{ display: 'flex', justifyContent: 'space-between' }}>
         <Button variant="ghost" onClick={onBack}>
           <ArrowLeft size={16} /> Back
         </Button>
         <Button variant="primary" onClick={handleNext}>
-          Continue <ArrowRight size={16} />
+          Next: Discovery Preferences <ArrowRight size={16} />
         </Button>
       </div>
     </div>

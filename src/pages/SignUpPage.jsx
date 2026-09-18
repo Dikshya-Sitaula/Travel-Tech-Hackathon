@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Mountain, ArrowRight } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { Button } from '../components/ui/Button';
 import { Card } from '../components/ui/Card';
 import { useAuth } from '../context/AuthContext';
@@ -17,10 +17,20 @@ const SignUpPage = () => {
   const navigate = useNavigate();
   const { signup } = useAuth();
 
+  const validateEmail = (e) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!name || !email || !password || !confirmPassword) {
-      setError('Please fill in all fields.');
+    if (!name.trim() || !email.trim() || !password || !confirmPassword) {
+      setError('Please fill in all required fields.');
+      return;
+    }
+    if (!validateEmail(email)) {
+      setError('Please enter a valid email address.');
+      return;
+    }
+    if (password.length < 6) {
+      setError('Password must be at least 6 characters long.');
       return;
     }
     if (password !== confirmPassword) {
@@ -37,35 +47,35 @@ const SignUpPage = () => {
     
     try {
       await signup(name, email, password);
-      navigate('/dashboard');
+      navigate('/login', { state: { message: 'Account created successfully! Please log in.' } });
     } catch (err) {
-      setError('Sign up failed. Please try again.');
+      setError(err.message || 'Sign up failed. Please try again.');
       setIsSubmitting(false);
     }
   };
 
   return (
-    <div style={{ minHeight: '100vh', display: 'flex', backgroundColor: 'var(--color-bg)' }}>
+    <div style={{ minHeight: '100vh', display: 'flex', backgroundColor: 'var(--color-very-light-bg)' }}>
       {/* Visual Side */}
-      <div style={{ flex: 1, display: 'none', position: 'relative', background: 'linear-gradient(135deg, var(--color-green), var(--color-navy))' }} className="auth-visual">
-        <div style={{ position: 'absolute', inset: 0, opacity: 0.2, backgroundImage: 'url("https://images.unsplash.com/photo-1526772662000-3f88f10405ff?q=80&w=2000&auto=format&fit=crop")', backgroundSize: 'cover', backgroundPosition: 'center' }} />
+      <div style={{ flex: 1, display: 'none', position: 'relative', background: 'linear-gradient(135deg, var(--color-dark-green), var(--color-primary-green))' }} className="auth-visual">
+        <div style={{ position: 'absolute', inset: 0, opacity: 0.25, backgroundImage: 'url("https://images.unsplash.com/photo-1526772662000-3f88f10405ff?q=80&w=2000&auto=format&fit=crop")', backgroundSize: 'cover', backgroundPosition: 'center' }} />
         <div style={{ position: 'absolute', bottom: '4rem', left: '4rem', right: '4rem', color: 'white' }}>
-          <h2 style={{ fontSize: '3rem', color: 'white', marginBottom: '1rem' }}>Your journey starts here.</h2>
-          <p style={{ fontSize: '1.25rem', opacity: 0.9 }}>Create your TrekSafe account and prepare for your next adventure.</p>
+          <h2 style={{ fontSize: '3rem', color: 'white', marginBottom: '1rem', fontFamily: 'var(--font-heading)' }}>Your journey starts here.</h2>
+          <p style={{ fontSize: '1.25rem', opacity: 0.9 }}>Create your YatraX account and prepare for your next adventure in Nepal.</p>
         </div>
       </div>
 
       {/* Form Side */}
       <div style={{ flex: 1, display: 'flex', flexDirection: 'column', padding: '2rem' }}>
-        <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: 600, color: 'var(--color-navy)', marginBottom: 'auto' }}>
-          <Mountain color="var(--color-green)" /> TrekSafe
+        <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: 700, fontFamily: 'var(--font-heading)', color: 'var(--color-dark-green)', fontSize: '1.25rem', marginBottom: 'auto' }}>
+          <img src="/assets/logo.png" alt="YatraX Logo" style={{ height: '2rem', width: 'auto' }} /> YatraX
         </Link>
 
         <div style={{ width: '100%', maxWidth: '400px', margin: 'auto' }} className="animate-fade-in">
           <h1 style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>Start your journey.</h1>
-          <p style={{ color: 'var(--color-gray-600)', marginBottom: '2rem' }}>Create an account to build your first AI itinerary.</p>
+          <p style={{ color: 'var(--color-secondary-text)', marginBottom: '2rem' }}>Create an account to build your first AI itinerary.</p>
 
-          <Card>
+          <Card style={{ borderRadius: 'var(--radius-lg)' }}>
             {error && <div style={{ padding: '0.75rem', backgroundColor: 'var(--color-red-bg)', color: 'var(--color-red)', borderRadius: 'var(--radius-md)', marginBottom: '1.5rem', fontSize: '0.875rem' }}>{error}</div>}
             
             <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
@@ -75,6 +85,7 @@ const SignUpPage = () => {
                   type="text" 
                   value={name}
                   onChange={(e) => setName(e.target.value)}
+                  placeholder="e.g. Dikshya Sharma"
                   style={{ width: '100%', padding: '0.75rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--color-gray-300)' }} 
                 />
               </div>
@@ -85,16 +96,18 @@ const SignUpPage = () => {
                   type="email" 
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
+                  placeholder="name@example.com"
                   style={{ width: '100%', padding: '0.75rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--color-gray-300)' }} 
                 />
               </div>
               
               <div>
-                <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 500, fontSize: '0.875rem' }}>Password</label>
+                <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 500, fontSize: '0.875rem' }}>Password (min. 6 characters)</label>
                 <input 
                   type="password" 
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
+                  placeholder="••••••••"
                   style={{ width: '100%', padding: '0.75rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--color-gray-300)' }} 
                 />
               </div>
@@ -105,13 +118,14 @@ const SignUpPage = () => {
                   type="password" 
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
+                  placeholder="••••••••"
                   style={{ width: '100%', padding: '0.75rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--color-gray-300)' }} 
                 />
               </div>
 
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                 <input type="checkbox" id="agree" checked={agree} onChange={(e) => setAgree(e.target.checked)} />
-                <label htmlFor="agree" style={{ fontSize: '0.875rem', color: 'var(--color-gray-600)' }}>I agree to the Terms and Privacy Policy.</label>
+                <label htmlFor="agree" style={{ fontSize: '0.875rem', color: 'var(--color-secondary-text)' }}>I agree to the Terms and Privacy Policy.</label>
               </div>
 
               <Button type="submit" variant="primary" fullWidth disabled={isSubmitting}>
@@ -120,8 +134,8 @@ const SignUpPage = () => {
             </form>
           </Card>
 
-          <p style={{ textAlign: 'center', marginTop: '2rem', color: 'var(--color-gray-600)' }}>
-            Already have an account? <Link to="/login" style={{ color: 'var(--color-blue)', fontWeight: 500 }}>Log in</Link>
+          <p style={{ textAlign: 'center', marginTop: '2rem', color: 'var(--color-secondary-text)' }}>
+            Already have an account? <Link to="/login" style={{ color: 'var(--color-primary-green)', fontWeight: 600 }}>Log in</Link>
           </p>
         </div>
       </div>

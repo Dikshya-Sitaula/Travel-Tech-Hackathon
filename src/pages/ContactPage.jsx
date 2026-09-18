@@ -16,8 +16,8 @@ const ContactPage = () => {
 
   const faqs = [
     {
-      q: "What is TrekSafe?",
-      a: "TrekSafe is an AI-powered travel companion that helps you plan, navigate, and stay safe during your journey."
+      q: "What is YatraX?",
+      a: "YatraX is an AI-powered smart tourism and travel safety platform for Nepal that helps you plan, navigate, explore landmarks, and stay safe."
     },
     {
       q: "Does the Offline Assistant require internet?",
@@ -64,7 +64,7 @@ const ContactPage = () => {
                 </div>
                 <div>
                   <div style={{ fontWeight: 600 }}>Email</div>
-                  <div style={{ color: 'var(--color-gray-600)' }}>hello@treksafe.com</div>
+                  <div style={{ color: 'var(--color-gray-600)' }}>hello@yatrax.com</div>
                 </div>
               </Card>
             </div>
@@ -98,7 +98,7 @@ const ContactPage = () => {
               <Card style={{ textAlign: 'center', padding: '4rem 2rem' }}>
                 <CheckCircle size={64} color="var(--color-green)" style={{ margin: '0 auto 1.5rem' }} />
                 <h3 style={{ fontSize: '1.5rem', marginBottom: '1rem' }}>Message sent successfully!</h3>
-                <p style={{ color: 'var(--color-gray-600)' }}>Thanks for reaching out to TrekSafe.</p>
+                <p style={{ color: 'var(--color-gray-600)' }}>Thanks for reaching out to YatraX.</p>
                 <Button onClick={() => setSubmitted(false)} variant="outline" style={{ marginTop: '2rem' }}>Send Another</Button>
               </Card>
             )}

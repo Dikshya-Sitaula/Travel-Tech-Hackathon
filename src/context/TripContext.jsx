@@ -8,11 +8,15 @@ export const TripProvider = ({ children }) => {
   const [preferences, setPreferences] = useState({});
 
   useEffect(() => {
-    const savedTrip = localStorage.getItem('treksafe_trip');
+    const savedTrip = localStorage.getItem('yatrax_trip');
     if (savedTrip) {
-      setCurrentTrip(JSON.parse(savedTrip));
+      try {
+        setCurrentTrip(JSON.parse(savedTrip));
+      } catch (e) {
+        localStorage.removeItem('yatrax_trip');
+      }
     }
-    const offlineStatus = localStorage.getItem('treksafe_offline_ready');
+    const offlineStatus = localStorage.getItem('yatrax_offline_ready');
     if (offlineStatus === 'true') {
       setIsOfflineReady(true);
     }
@@ -20,19 +24,19 @@ export const TripProvider = ({ children }) => {
 
   const saveTrip = (tripData) => {
     setCurrentTrip(tripData);
-    localStorage.setItem('treksafe_trip', JSON.stringify(tripData));
+    localStorage.setItem('yatrax_trip', JSON.stringify(tripData));
   };
 
   const clearTrip = () => {
     setCurrentTrip(null);
-    localStorage.removeItem('treksafe_trip');
-    localStorage.removeItem('treksafe_offline_ready');
+    localStorage.removeItem('yatrax_trip');
+    localStorage.removeItem('yatrax_offline_ready');
     setIsOfflineReady(false);
   };
 
   const markOfflineReady = () => {
     setIsOfflineReady(true);
-    localStorage.setItem('treksafe_offline_ready', 'true');
+    localStorage.setItem('yatrax_offline_ready', 'true');
   };
 
   return (

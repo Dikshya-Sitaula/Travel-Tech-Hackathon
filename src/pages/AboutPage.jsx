@@ -16,22 +16,22 @@ const AboutPage = () => {
         <section className="hero container">
           <h1 className="hero-title">Technology that travels with you.</h1>
           <p className="hero-subtitle">
-            TrekSafe combines AI-powered trip planning, offline assistance, landmark discovery, and emergency support into one intelligent travel companion.
+            YatraX combines AI-powered trip planning, offline assistance, landmark discovery, and emergency support into one intelligent travel companion for Nepal.
           </p>
         </section>
 
         {/* Section 1 */}
         <section className="section section-bg">
           <div className="container" style={{ maxWidth: '800px' }}>
-            <h2 className="section-title text-center" style={{ textAlign: 'center' }}>Why TrekSafe?</h2>
+            <h2 className="section-title text-center" style={{ textAlign: 'center' }}>Why YatraX?</h2>
             <p style={{ fontSize: '1.125rem', marginBottom: '1.5rem', textAlign: 'center' }}>
               Travelers exploring unfamiliar destinations often need to search across multiple platforms for information about destinations, activities, routes, costs, and safety.
             </p>
             <p style={{ fontSize: '1.125rem', marginBottom: '1.5rem', textAlign: 'center' }}>
-              In remote regions, connectivity may also become unreliable.
+              In remote regions of Nepal, connectivity may also become unreliable.
             </p>
-            <p style={{ fontSize: '1.125rem', fontWeight: 500, color: 'var(--color-navy)', textAlign: 'center' }}>
-              TrekSafe brings these needs together into one platform.
+            <p style={{ fontSize: '1.125rem', fontWeight: 500, color: 'var(--color-dark-green)', textAlign: 'center' }}>
+              YatraX brings these needs together into one unified platform.
             </p>
           </div>
         </section>
@@ -39,15 +39,15 @@ const AboutPage = () => {
         {/* Section 2 */}
         <section className="section container text-center" style={{ textAlign: 'center', maxWidth: '800px', margin: '0 auto' }}>
           <h2 className="section-title">Our Mission</h2>
-          <p style={{ fontSize: '1.5rem', fontWeight: 500, color: 'var(--color-blue)', lineHeight: 1.4 }}>
-            "Make exploring smarter, more informed, and safer — even beyond reliable connectivity."
+          <p style={{ fontSize: '1.5rem', fontWeight: 500, color: 'var(--color-primary-green)', lineHeight: 1.4 }}>
+            "Make exploring Nepal smarter, more informed, and safer — even beyond reliable connectivity."
           </p>
         </section>
 
         {/* Section 3 */}
         <section className="section section-bg">
           <div className="container">
-            <h2 className="section-title text-center" style={{ textAlign: 'center', marginBottom: '4rem' }}>What makes TrekSafe different?</h2>
+            <h2 className="section-title text-center" style={{ textAlign: 'center', marginBottom: '4rem' }}>What makes YatraX different?</h2>
             
             <div className="features-grid">
               <Card>

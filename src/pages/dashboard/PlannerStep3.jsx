@@ -1,125 +1,85 @@
 import React, { useState } from 'react';
 import { Button } from '../../components/ui/Button';
-import { ArrowRight, ArrowLeft, Sparkles, X } from 'lucide-react';
-import { Badge } from '../../components/ui/Badge';
+import { ArrowRight, ArrowLeft, Sparkles } from 'lucide-react';
 
 const PlannerStep3 = ({ onNext, onBack, defaultValues }) => {
-  const [discovery, setDiscovery] = useState(defaultValues.discovery || 'Less-crowded');
-  const [distance, setDistance] = useState(defaultValues.distance || 'Within the region');
-  const [nlInput, setNlInput] = useState(defaultValues.nlInput || '');
-  const [isParsing, setIsParsing] = useState(false);
-  const [parsedChips, setParsedChips] = useState(defaultValues.parsedChips || []);
+  const [discoveryPreferences, setDiscoveryPreferences] = useState(
+    defaultValues.discoveryPreferences || ['Less-Crowded Places', 'Hidden Gems']
+  );
+  const [userNotes, setUserNotes] = useState(defaultValues.userNotes || '');
 
-  const discoveryOptions = [
-    { label: 'Popular Highlights', desc: 'Show me the places everyone talks about.' },
-    { label: 'Less-crowded', desc: 'Beautiful places with fewer tourists.' },
-    { label: 'Local Experiences', desc: 'Show me experiences connected to local communities.' },
-    { label: 'Off-the-beaten-path', desc: "Find unusual destinations that aren't part of the typical tourist route." },
-    { label: 'Surprise Me', desc: 'Choose unexpected places based on my interests.' }
+  const options = [
+    { label: 'Popular Highlights', desc: 'Must-see iconic landmarks & spots.' },
+    { label: 'Less-Crowded Places', desc: 'Peaceful locations away from tourist crowds.' },
+    { label: 'Local Experiences', desc: 'Homestays, workshops & community culture.' },
+    { label: 'Off-the-Beaten-Path', desc: 'Unusual trails and hidden valleys.' },
+    { label: 'Hidden Gems', desc: 'Secret viewpoints, waterfalls & local secrets.' },
+    { label: 'Food & Culture', desc: 'Traditional authentic dining & heritage.' }
   ];
 
-  const handleParse = () => {
-    if (!nlInput) return;
-    setIsParsing(true);
-    setTimeout(() => {
-      // Mock parsing logic based on input
-      const newChips = ['Nature', 'Photography', 'Low crowd'];
-      if (nlInput.toLowerCase().includes('hike')) newChips.push('Moderate hiking');
-      if (nlInput.toLowerCase().includes('peace')) newChips.push('Peace & Wellness');
-      
-      setParsedChips([...new Set([...parsedChips, ...newChips])]);
-      setIsParsing(false);
-    }, 1500);
-  };
-
-  const removeChip = (chipToRemove) => {
-    setParsedChips(parsedChips.filter(c => c !== chipToRemove));
+  const toggleOption = (opt) => {
+    if (discoveryPreferences.includes(opt)) {
+      setDiscoveryPreferences(discoveryPreferences.filter(o => o !== opt));
+    } else {
+      setDiscoveryPreferences([...discoveryPreferences, opt]);
+    }
   };
 
   const handleNext = () => {
-    onNext({ discovery, distance, nlInput, parsedChips });
+    onNext({ discoveryPreferences, userNotes });
   };
 
   return (
     <div className="animate-fade-in">
-      <h2 style={{ fontSize: '1.25rem', marginBottom: '0.5rem' }}>What do you want to discover?</h2>
-      <p style={{ color: 'var(--color-gray-600)', marginBottom: '1.5rem' }}>Tell TrekSafe how adventurous you want your recommendations to be.</p>
+      <h2 style={{ fontSize: '1.25rem', marginBottom: '0.5rem', fontFamily: 'var(--font-heading)' }}>Step 3 — Discovery Preferences</h2>
+      <p style={{ color: 'var(--color-secondary-text)', marginBottom: '1.5rem' }}>How would you like YatraX to discover and recommend places for you?</p>
 
-      <div className="selectable-grid-lg" style={{ marginBottom: '2.5rem' }}>
-        {discoveryOptions.map(opt => (
-          <div 
-            key={opt.label}
-            className={`selectable-card ${discovery === opt.label ? 'selected' : ''}`}
-            onClick={() => setDiscovery(opt.label)}
-            style={{ padding: '1.25rem' }}
-          >
-            <div style={{ fontWeight: 600, marginBottom: '0.25rem' }}>{opt.label.toUpperCase()}</div>
-            <div style={{ fontSize: '0.875rem', color: 'var(--color-gray-600)' }}>{opt.desc}</div>
-          </div>
-        ))}
-      </div>
-
-      <div className="form-group" style={{ marginBottom: '2.5rem' }}>
-        <h2 style={{ fontSize: '1.25rem', marginBottom: '1rem' }}>How far are you willing to explore?</h2>
-        <div className="selectable-grid">
-          {['Nearby', 'Within the region', 'Anywhere in the destination'].map(opt => (
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1.25rem', marginBottom: '2.5rem' }}>
+        {options.map(opt => {
+          const isSelected = discoveryPreferences.includes(opt.label);
+          return (
             <div 
-              key={opt}
-              className={`selectable-card ${distance === opt ? 'selected' : ''}`}
-              onClick={() => setDistance(opt)}
-              style={{ textAlign: 'center', padding: '0.75rem' }}
+              key={opt.label}
+              onClick={() => toggleOption(opt.label)}
+              style={{
+                padding: '1.25rem',
+                borderRadius: 'var(--radius-md)',
+                border: isSelected ? '2px solid var(--color-primary-green)' : '1.5px solid var(--color-gray-300)',
+                backgroundColor: isSelected ? 'var(--color-light-mint)' : 'white',
+                cursor: 'pointer',
+                transition: 'all var(--transition-fast)'
+              }}
             >
-              {opt}
+              <div style={{ fontWeight: 600, fontSize: '1rem', color: isSelected ? 'var(--color-dark-green)' : 'var(--color-dark-text)', marginBottom: '0.25rem' }}>
+                {opt.label}
+              </div>
+              <div style={{ fontSize: '0.8rem', color: 'var(--color-secondary-text)' }}>{opt.desc}</div>
             </div>
-          ))}
-        </div>
+          );
+        })}
       </div>
 
-      <div className="form-group" style={{ backgroundColor: 'var(--color-blue-bg)', padding: '1.5rem', borderRadius: 'var(--radius-lg)' }}>
-        <h2 style={{ fontSize: '1.125rem', marginBottom: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-          <Sparkles size={18} color="var(--color-blue)" /> Describe your ideal trip in your own words.
-        </h2>
-        <p style={{ fontSize: '0.875rem', color: 'var(--color-gray-600)', marginBottom: '1rem' }}>We'll use AI to extract your specific preferences.</p>
-        
-        <div style={{ position: 'relative' }}>
-          <textarea 
-            value={nlInput}
-            onChange={(e) => setNlInput(e.target.value)}
-            className="form-input" 
-            rows="3" 
-            placeholder="I want somewhere beautiful, peaceful, and less touristy. I enjoy mountains, photography, and short hikes."
-            style={{ paddingBottom: '3rem', resize: 'none' }}
-          />
-          <div style={{ position: 'absolute', bottom: '0.5rem', right: '0.5rem' }}>
-            <Button size="sm" variant="primary" onClick={handleParse} disabled={!nlInput || isParsing}>
-              {isParsing ? 'Understanding...' : 'Let AI Understand Me ✨'}
-            </Button>
-          </div>
-        </div>
-
-        {parsedChips.length > 0 && (
-          <div style={{ marginTop: '1.5rem' }}>
-            <div style={{ fontSize: '0.875rem', fontWeight: 500, marginBottom: '0.75rem', color: 'var(--color-blue)' }}>We understood:</div>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
-              {parsedChips.map(chip => (
-                <Badge key={chip} variant="blue" style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
-                  ✓ {chip}
-                  <button onClick={() => removeChip(chip)} style={{ color: 'inherit', display: 'flex', alignItems: 'center' }}>
-                    <X size={12} />
-                  </button>
-                </Badge>
-              ))}
-            </div>
-          </div>
-        )}
+      {/* Additional Text Notes */}
+      <div className="form-group" style={{ marginBottom: '2.5rem' }}>
+        <label className="form-label" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: 600 }}>
+          <Sparkles size={18} color="var(--color-primary-green)" /> Tell YatraX anything else about your trip...
+        </label>
+        <textarea 
+          value={userNotes}
+          onChange={(e) => setUserNotes(e.target.value)}
+          className="form-input"
+          rows="3"
+          placeholder="e.g. I prefer quiet mornings, love organic farm food, want vegetarian options, and prefer short hikes under 3 hours..."
+          style={{ resize: 'vertical' }}
+        />
       </div>
 
-      <div className="planner-actions">
+      <div className="planner-actions" style={{ display: 'flex', justifyContent: 'space-between' }}>
         <Button variant="ghost" onClick={onBack}>
           <ArrowLeft size={16} /> Back
         </Button>
         <Button variant="primary" onClick={handleNext}>
-          Continue <ArrowRight size={16} />
+          Next: Travel Pace & Social <ArrowRight size={16} />
         </Button>
       </div>
     </div>

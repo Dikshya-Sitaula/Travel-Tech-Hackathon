@@ -1,39 +1,52 @@
 :root {
-  /* Colors */
-  --color-navy: #0F1B2D;
-  --color-navy-mid: #1E3A5F;
-  --color-navy-light: #2D4C73;
-  --color-green: #2D7D46;
-  --color-green-light: #4A9A64;
-  --color-blue: #2563EB;
-  --color-blue-light: #3B82F6;
-  --color-blue-bg: #EFF6FF;
-  --color-orange: #EA580C;
-  --color-orange-light: #F97316;
+  /* YatraX Color System */
+  --color-dark-green: #075B4C;
+  --color-primary-green: #247A67;
+  --color-mint-green: #8FCDB5;
+  --color-light-mint: #DFF1E8;
+  --color-very-light-bg: #F7FBF8;
+  --color-cream: #FFFDF7;
+  --color-golden-yellow: #F5B83D;
+  --color-dark-text: #183B35;
+  --color-secondary-text: #668078;
+  --color-white: #FFFFFF;
+
+  /* Aliases for compatibility */
+  --color-navy: #183B35;
+  --color-navy-mid: #075B4C;
+  --color-navy-light: #247A67;
+  --color-green: #247A67;
+  --color-green-light: #8FCDB5;
+  --color-blue: #247A67;
+  --color-blue-light: #8FCDB5;
+  --color-blue-bg: #DFF1E8;
+  --color-orange: #F5B83D;
+  --color-orange-light: #F5B83D;
   --color-red: #DC2626;
   --color-red-bg: #FEF2F2;
-  --color-bg: #F8F9FA;
-  --color-white: #FFFFFF;
-  --color-gray-100: #F3F4F6;
-  --color-gray-200: #E5E7EB;
-  --color-gray-300: #D1D5DB;
-  --color-gray-400: #9CA3AF;
-  --color-gray-500: #6B7280;
-  --color-gray-600: #4B5563;
+  --color-bg: #F7FBF8;
+
+  --color-gray-100: #F3F8F5;
+  --color-gray-200: #E2EFE9;
+  --color-gray-300: #C7DFD5;
+  --color-gray-400: #93B5A9;
+  --color-gray-500: #668078;
+  --color-gray-600: #466058;
 
   /* Typography */
+  --font-heading: 'Poppins', system-ui, -apple-system, sans-serif;
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
 
   /* Shadows */
-  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-sm: 0 2px 4px 0 rgba(7, 91, 76, 0.04);
+  --shadow-md: 0 4px 12px -2px rgba(7, 91, 76, 0.08), 0 2px 4px -1px rgba(7, 91, 76, 0.04);
+  --shadow-lg: 0 12px 24px -4px rgba(7, 91, 76, 0.12), 0 4px 8px -2px rgba(7, 91, 76, 0.06);
   
   /* Radii */
-  --radius-sm: 6px;
-  --radius-md: 12px;
-  --radius-lg: 16px;
-  --radius-xl: 20px;
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 18px;
+  --radius-xl: 24px;
   --radius-full: 9999px;
 
   /* Transitions */
@@ -49,8 +62,8 @@
 
 body {
   font-family: var(--font-sans);
-  background-color: var(--color-bg);
-  color: var(--color-navy);
+  background-color: var(--color-very-light-bg);
+  color: var(--color-dark-text);
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
 }
@@ -61,19 +74,20 @@ a {
 }
 
 button {
-  font-family: inherit;
+  font-family: var(--font-heading);
   border: none;
   background: none;
   cursor: pointer;
 }
 
 input, textarea, select {
-  font-family: inherit;
+  font-family: var(--font-sans);
 }
 
 /* Typography styles */
 h1, h2, h3, h4, h5, h6 {
-  color: var(--color-navy);
+  font-family: var(--font-heading);
+  color: var(--color-dark-text);
   font-weight: 600;
   line-height: 1.2;
 }
@@ -97,7 +111,7 @@ h4 {
 }
 
 p {
-  color: var(--color-gray-600);
+  color: var(--color-secondary-text);
 }
 
 /* Layout Utilities */
@@ -120,6 +134,6 @@ p {
 
 /* Highlight text */
 .highlight-text {
-  color: var(--color-blue);
+  color: var(--color-primary-green);
   font-weight: 700;
 }
