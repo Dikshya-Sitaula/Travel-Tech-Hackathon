@@ -51,14 +51,6 @@ const OfflineAssistantPage = () => {
     setIsTyping(false);
   };
 
-  const quickPrompts = [
-    "What should I pack for Nepal?",
-    "What can I do in Pokhara?",
-    "What is the best time to visit Mustang?",
-    "Give me local food recommendations.",
-    "What should I know before trekking?"
-  ];
-
   return (
     <div className="animate-fade-in" style={{ height: 'calc(100vh - 7rem)', display: 'flex', flexDirection: 'column' }}>
       {/* Header */}
@@ -113,27 +105,6 @@ const OfflineAssistantPage = () => {
 
         {/* Input & Suggested Chips Bar */}
         <div style={{ padding: '1rem', borderTop: '1px solid var(--color-gray-200)', backgroundColor: 'white' }}>
-          <div style={{ display: 'flex', gap: '0.5rem', overflowX: 'auto', paddingBottom: '0.75rem', scrollbarWidth: 'none' }}>
-            {quickPrompts.map(p => (
-              <Badge 
-                key={p} 
-                variant="gray" 
-                onClick={() => handleSend(p)}
-                style={{ 
-                  cursor: 'pointer', 
-                  whiteSpace: 'nowrap', 
-                  border: '1px solid var(--color-mint-green)',
-                  backgroundColor: 'var(--color-very-light-bg)',
-                  color: 'var(--color-dark-green)',
-                  fontWeight: 500,
-                  padding: '0.4rem 0.85rem'
-                }}
-              >
-                {p}
-              </Badge>
-            ))}
-          </div>
-          
           <form 
             onSubmit={(e) => { e.preventDefault(); handleSend(); }}
             style={{ display: 'flex', gap: '0.5rem', position: 'relative' }}
