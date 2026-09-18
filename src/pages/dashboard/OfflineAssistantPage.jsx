@@ -1,15 +1,15 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Send, SignalZero, Wifi, Sparkles } from 'lucide-react';
+import { Send, Sparkles, Bot, Wifi, SignalZero } from 'lucide-react';
 import { Button } from '../../components/ui/Button';
 import { Card } from '../../components/ui/Card';
 import { Badge } from '../../components/ui/Badge';
-import { offlineTripService } from '../../services/offlineTripService';
+import { sendAssistantMessage } from '../../services/api';
 import { useTrip } from '../../context/TripContext';
 
 const OfflineAssistantPage = () => {
   const [messages, setMessages] = useState([
     {
-      text: "Hi there! I'm your offline travel assistant. I can help you with your itinerary, emergency info, and basic translations even without an internet connection.",
+      text: "Namaste! 🙏 I'm your YatraX AI Assistant. Ask me anything about packing, trekking, local food, or safety in Nepal!",
       isUser: false,
       timestamp: new Date().toISOString()
     }
@@ -45,69 +45,73 @@ const OfflineAssistantPage = () => {
     setInput('');
     setIsTyping(true);
 
-    const response = await offlineTripService.queryAssistant(text, currentTrip);
+    const response = await sendAssistantMessage(text, currentTrip);
     
     setMessages(prev => [...prev, response]);
     setIsTyping(false);
   };
 
   const quickPrompts = [
-    "My next activity",
-    "Show my itinerary",
-    "Emergency help",
-    "Nepali phrases",
-    "Safety tips"
+    "What should I pack for Nepal?",
+    "What can I do in Pokhara?",
+    "What is the best time to visit Mustang?",
+    "Give me local food recommendations.",
+    "What should I know before trekking?"
   ];
 
   return (
-    <div className="animate-fade-in" style={{ height: 'calc(100vh - 8rem)', display: 'flex', flexDirection: 'column' }}>
+    <div className="animate-fade-in" style={{ height: 'calc(100vh - 7rem)', display: 'flex', flexDirection: 'column' }}>
       {/* Header */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem' }}>
         <div>
-          <h1 style={{ fontSize: '1.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-            🤖 Offline AI Assistant
+          <h1 style={{ fontSize: '1.75rem', display: 'flex', alignItems: 'center', gap: '0.65rem', fontFamily: 'var(--font-heading)' }}>
+            <Bot color="var(--color-primary-green)" size={28} /> YatraX AI Assistant
           </h1>
-          <p style={{ color: 'var(--color-gray-600)', fontSize: '0.875rem' }}>Your travel companion when connectivity disappears.</p>
+          <p style={{ color: 'var(--color-secondary-text)', fontSize: '0.9rem' }}>Your intelligent travel companion for Nepal.</p>
         </div>
         
-        <Badge variant={isOnline ? 'green' : 'red'} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.5rem 1rem' }}>
+        <Badge variant={isOnline ? 'green' : 'gray'} style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', padding: '0.4rem 0.85rem' }}>
           {isOnline ? <Wifi size={14} /> : <SignalZero size={14} />}
-          {isOnline ? 'ONLINE: Cloud services available' : 'OFFLINE MODE: No internet connection'}
+          {isOnline ? 'Online Ready' : 'Offline Ready'}
         </Badge>
       </div>
 
-      {/* Chat Area */}
-      <Card style={{ flex: 1, display: 'flex', flexDirection: 'column', padding: 0, overflow: 'hidden' }}>
-        <div style={{ flex: 1, overflowY: 'auto', padding: '1.5rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+      {/* Chat Container */}
+      <Card style={{ flex: 1, display: 'flex', flexDirection: 'column', padding: 0, overflow: 'hidden', borderRadius: 'var(--radius-lg)' }}>
+        <div style={{ flex: 1, overflowY: 'auto', padding: '1.5rem', display: 'flex', flexDirection: 'column', gap: '1rem', backgroundColor: 'var(--color-very-light-bg)' }}>
           {messages.map((msg, idx) => (
             <div key={idx} style={{ alignSelf: msg.isUser ? 'flex-end' : 'flex-start', maxWidth: '80%' }}>
               <div style={{
-                padding: '1rem',
+                padding: '1rem 1.25rem',
                 borderRadius: 'var(--radius-lg)',
-                backgroundColor: msg.isUser ? 'var(--color-blue)' : 'var(--color-gray-100)',
-                color: msg.isUser ? 'white' : 'var(--color-navy)',
+                backgroundColor: msg.isUser ? 'var(--color-primary-green)' : 'white',
+                color: msg.isUser ? 'white' : 'var(--color-dark-text)',
+                boxShadow: 'var(--shadow-sm)',
                 borderBottomRightRadius: msg.isUser ? 0 : 'var(--radius-lg)',
-                borderBottomLeftRadius: !msg.isUser ? 0 : 'var(--radius-lg)'
+                borderBottomLeftRadius: !msg.isUser ? 0 : 'var(--radius-lg)',
+                lineHeight: 1.55,
+                fontSize: '0.95rem'
               }}>
                 {msg.text}
               </div>
-              <div style={{ fontSize: '0.75rem', color: 'var(--color-gray-400)', marginTop: '0.25rem', textAlign: msg.isUser ? 'right' : 'left' }}>
+              <div style={{ fontSize: '0.75rem', color: 'var(--color-secondary-text)', marginTop: '0.25rem', textAlign: msg.isUser ? 'right' : 'left' }}>
                 {new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
               </div>
             </div>
           ))}
           {isTyping && (
-            <div style={{ alignSelf: 'flex-start', padding: '1rem', borderRadius: 'var(--radius-lg)', backgroundColor: 'var(--color-gray-100)', borderBottomLeftRadius: 0 }}>
-              <div className="typing-indicator" style={{ display: 'flex', gap: '4px' }}>
-                <span className="dot" style={{ width: '6px', height: '6px', backgroundColor: 'var(--color-gray-400)', borderRadius: '50%' }}></span>
-                <span className="dot" style={{ width: '6px', height: '6px', backgroundColor: 'var(--color-gray-400)', borderRadius: '50%', animationDelay: '0.2s' }}></span>
-                <span className="dot" style={{ width: '6px', height: '6px', backgroundColor: 'var(--color-gray-400)', borderRadius: '50%', animationDelay: '0.4s' }}></span>
+            <div style={{ alignSelf: 'flex-start', padding: '1rem', borderRadius: 'var(--radius-lg)', backgroundColor: 'white', borderBottomLeftRadius: 0, boxShadow: 'var(--shadow-sm)' }}>
+              <div className="typing-indicator" style={{ display: 'flex', gap: '5px', alignItems: 'center' }}>
+                <span className="dot" style={{ width: '7px', height: '7px', backgroundColor: 'var(--color-primary-green)', borderRadius: '50%' }}></span>
+                <span className="dot" style={{ width: '7px', height: '7px', backgroundColor: 'var(--color-primary-green)', borderRadius: '50%', animationDelay: '0.2s' }}></span>
+                <span className="dot" style={{ width: '7px', height: '7px', backgroundColor: 'var(--color-primary-green)', borderRadius: '50%', animationDelay: '0.4s' }}></span>
               </div>
             </div>
           )}
           <div ref={messagesEndRef} />
         </div>
 
+        {/* Input & Suggested Chips Bar */}
         <div style={{ padding: '1rem', borderTop: '1px solid var(--color-gray-200)', backgroundColor: 'white' }}>
           <div style={{ display: 'flex', gap: '0.5rem', overflowX: 'auto', paddingBottom: '0.75rem', scrollbarWidth: 'none' }}>
             {quickPrompts.map(p => (
@@ -115,7 +119,15 @@ const OfflineAssistantPage = () => {
                 key={p} 
                 variant="gray" 
                 onClick={() => handleSend(p)}
-                style={{ cursor: 'pointer', whiteSpace: 'nowrap', border: '1px solid var(--color-gray-300)' }}
+                style={{ 
+                  cursor: 'pointer', 
+                  whiteSpace: 'nowrap', 
+                  border: '1px solid var(--color-mint-green)',
+                  backgroundColor: 'var(--color-very-light-bg)',
+                  color: 'var(--color-dark-green)',
+                  fontWeight: 500,
+                  padding: '0.4rem 0.85rem'
+                }}
               >
                 {p}
               </Badge>
@@ -130,17 +142,23 @@ const OfflineAssistantPage = () => {
               type="text" 
               value={input}
               onChange={e => setInput(e.target.value)}
-              placeholder="Ask anything about your trip..."
+              placeholder="Ask YatraX anything about traveling in Nepal..."
               className="form-input"
-              style={{ paddingRight: '3rem' }}
+              style={{ paddingRight: '3.5rem', borderRadius: 'var(--radius-md)' }}
             />
-            <Button type="submit" variant="primary" size="sm" style={{ position: 'absolute', right: '0.25rem', top: '0.25rem', bottom: '0.25rem', padding: '0 0.75rem' }} disabled={!input.trim()}>
+            <Button 
+              type="submit" 
+              variant="primary" 
+              size="sm" 
+              style={{ position: 'absolute', right: '0.35rem', top: '0.35rem', bottom: '0.35rem', padding: '0 1rem', borderRadius: 'var(--radius-sm)' }} 
+              disabled={!input.trim()}
+            >
               <Send size={16} />
             </Button>
           </form>
           
-          <div style={{ textAlign: 'center', marginTop: '0.75rem', fontSize: '0.75rem', color: 'var(--color-gray-400)', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.25rem' }}>
-            <Sparkles size={12} /> Powered by local AI
+          <div style={{ textAlign: 'center', marginTop: '0.6rem', fontSize: '0.75rem', color: 'var(--color-secondary-text)', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.25rem' }}>
+            <Sparkles size={12} color="var(--color-primary-green)" /> Powered by YatraX Travel AI
           </div>
         </div>
       </Card>

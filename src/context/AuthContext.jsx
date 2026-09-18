@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { loginUser as apiLoginUser, registerUser as apiRegisterUser } from '../services/api';
 
 const AuthContext = createContext();
 
@@ -7,45 +8,39 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Mock check for existing session
-    const storedUser = localStorage.getItem('treksafe_user');
+    // Check for existing session
+    const storedUser = localStorage.getItem('yatrax_user');
     if (storedUser) {
-      setUser(JSON.parse(storedUser));
+      try {
+        setUser(JSON.parse(storedUser));
+      } catch (e) {
+        localStorage.removeItem('yatrax_user');
+      }
     }
     setLoading(false);
   }, []);
 
   const login = async (email, password) => {
-    // Mock login API
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        const mockUser = { id: 1, name: 'Dikshya', email, role: 'Traveler' };
-        setUser(mockUser);
-        localStorage.setItem('treksafe_user', JSON.stringify(mockUser));
-        resolve(mockUser);
-      }, 800);
-    });
+    const authenticatedUser = await apiLoginUser(email, password);
+    setUser(authenticatedUser);
+    localStorage.setItem('yatrax_user', JSON.stringify(authenticatedUser));
+    return authenticatedUser;
   };
 
   const signup = async (name, email, password) => {
-    // Mock signup API
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        const mockUser = { id: 2, name, email, role: 'Traveler' };
-        setUser(mockUser);
-        localStorage.setItem('treksafe_user', JSON.stringify(mockUser));
-        resolve(mockUser);
-      }, 800);
-    });
+    const newUser = await apiRegisterUser(name, email, password);
+    // Do not auto log in on signup if redirecting to login, but we can set session or prepare login
+    return newUser;
   };
 
   const logout = () => {
     setUser(null);
-    localStorage.removeItem('treksafe_user');
+    localStorage.removeItem('yatrax_user');
+    localStorage.removeItem('yatrax_auth');
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, signup, logout, loading }}>
+    <AuthContext.Provider value={{ user, login, signup, logout, loading, isAuthenticated: !!user }}>
       {children}
     </AuthContext.Provider>
   );

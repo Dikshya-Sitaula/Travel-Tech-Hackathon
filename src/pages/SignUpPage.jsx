@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Mountain, ArrowRight } from 'lucide-react';
+import { ArrowRight, CheckCircle2 } from 'lucide-react';
 import { Button } from '../components/ui/Button';
 import { Card } from '../components/ui/Card';
 import { useAuth } from '../context/AuthContext';
@@ -10,25 +10,30 @@ const SignUpPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [agree, setAgree] = useState(false);
   
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
   const navigate = useNavigate();
-  const { signup } = useAuth();
+  const { signup, login } = useAuth();
+
+  const validateEmail = (e) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!name || !email || !password || !confirmPassword) {
-      setError('Please fill in all fields.');
+    if (!name.trim() || !email.trim() || !password || !confirmPassword) {
+      setError('All fields are required.');
+      return;
+    }
+    if (!validateEmail(email)) {
+      setError('Please enter a valid email address.');
+      return;
+    }
+    if (password.length < 6) {
+      setError('Password must be at least 6 characters long.');
       return;
     }
     if (password !== confirmPassword) {
-      setError('Passwords do not match.');
-      return;
-    }
-    if (!agree) {
-      setError('You must agree to the Terms and Privacy Policy.');
+      setError('Passwords must match.');
       return;
     }
     
@@ -37,91 +42,126 @@ const SignUpPage = () => {
     
     try {
       await signup(name, email, password);
-      navigate('/dashboard');
+      // Auto log in after demo registration
+      await login(email, password);
+      navigate('/dashboard', { replace: true });
     } catch (err) {
-      setError('Sign up failed. Please try again.');
+      setError(err.message || 'Sign up failed. Please try again.');
       setIsSubmitting(false);
     }
   };
 
   return (
-    <div style={{ minHeight: '100vh', display: 'flex', backgroundColor: 'var(--color-bg)' }}>
-      {/* Visual Side */}
-      <div style={{ flex: 1, display: 'none', position: 'relative', background: 'linear-gradient(135deg, var(--color-green), var(--color-navy))' }} className="auth-visual">
-        <div style={{ position: 'absolute', inset: 0, opacity: 0.2, backgroundImage: 'url("https://images.unsplash.com/photo-1526772662000-3f88f10405ff?q=80&w=2000&auto=format&fit=crop")', backgroundSize: 'cover', backgroundPosition: 'center' }} />
+    <div style={{ minHeight: '100vh', display: 'flex', backgroundColor: 'var(--color-soft-bg)' }}>
+      {/* Visual Side Banner */}
+      <div 
+        className="auth-visual" 
+        style={{ 
+          flex: 1, 
+          display: 'none', 
+          position: 'relative', 
+          backgroundColor: 'var(--color-dark-green)',
+          overflow: 'hidden' 
+        }}
+      >
+        <img 
+          src="https://images.unsplash.com/photo-1526772662000-3f88f10405ff?q=80&w=1600&auto=format&fit=crop" 
+          alt="Nepal Travel Adventure" 
+          style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.4 }} 
+        />
+        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(13,59,46,0.9) 0%, transparent 60%)' }} />
+        
         <div style={{ position: 'absolute', bottom: '4rem', left: '4rem', right: '4rem', color: 'white' }}>
-          <h2 style={{ fontSize: '3rem', color: 'white', marginBottom: '1rem' }}>Your journey starts here.</h2>
-          <p style={{ fontSize: '1.25rem', opacity: 0.9 }}>Create your TrekSafe account and prepare for your next adventure.</p>
+          <span style={{ backgroundColor: 'var(--color-primary-green)', padding: '0.35rem 0.85rem', borderRadius: '20px', fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase' }}>
+            Join YatraX
+          </span>
+          <h2 style={{ fontSize: '2.75rem', color: 'white', marginTop: '0.5rem', marginBottom: '1rem', fontFamily: 'var(--font-heading)' }}>
+            Start Your Yatra with YatraX
+          </h2>
+          <p style={{ fontSize: '1.15rem', color: 'var(--color-light-mint)', opacity: 0.95, lineHeight: 1.6 }}>
+            Discover popular destinations, get travel and safety guidance, and chat with your AI companion across Nepal.
+          </p>
         </div>
       </div>
 
       {/* Form Side */}
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', padding: '2rem' }}>
-        <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: 600, color: 'var(--color-navy)', marginBottom: 'auto' }}>
-          <Mountain color="var(--color-green)" /> TrekSafe
+      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', padding: '2.5rem' }}>
+        <Link to="/" style={{ display: 'inline-flex', alignItems: 'center', marginBottom: 'auto' }}>
+          <img 
+            src="/assets/logo.png" 
+            alt="YatraX Logo" 
+            style={{ height: '2.8rem', width: 'auto', objectFit: 'contain' }} 
+          />
         </Link>
 
-        <div style={{ width: '100%', maxWidth: '400px', margin: 'auto' }} className="animate-fade-in">
-          <h1 style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>Start your journey.</h1>
-          <p style={{ color: 'var(--color-gray-600)', marginBottom: '2rem' }}>Create an account to build your first AI itinerary.</p>
+        <div style={{ width: '100%', maxWidth: '420px', margin: 'auto' }} className="animate-fade-in">
+          <h1 style={{ fontSize: '2.25rem', marginBottom: '0.5rem', color: 'var(--color-dark-green)' }}>
+            Start Your Yatra with YatraX
+          </h1>
+          <p style={{ color: 'var(--color-secondary-text)', marginBottom: '2rem', fontSize: '0.975rem' }}>
+            Create your demo account to explore Nepal smarter.
+          </p>
 
-          <Card>
-            {error && <div style={{ padding: '0.75rem', backgroundColor: 'var(--color-red-bg)', color: 'var(--color-red)', borderRadius: 'var(--radius-md)', marginBottom: '1.5rem', fontSize: '0.875rem' }}>{error}</div>}
+          <Card style={{ borderRadius: 'var(--radius-xl)', padding: '2rem', backgroundColor: '#FFFFFF' }}>
+            {error && (
+              <div style={{ padding: '0.85rem 1rem', backgroundColor: 'var(--color-red-bg)', color: 'var(--color-red)', borderRadius: 'var(--radius-md)', marginBottom: '1.5rem', fontSize: '0.875rem', fontWeight: 500 }}>
+                {error}
+              </div>
+            )}
             
             <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
               <div>
-                <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 500, fontSize: '0.875rem' }}>Full Name</label>
+                <label style={{ display: 'block', marginBottom: '0.4rem', fontWeight: 600, fontSize: '0.875rem', color: 'var(--color-dark-text)' }}>Full Name</label>
                 <input 
                   type="text" 
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  style={{ width: '100%', padding: '0.75rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--color-gray-300)' }} 
+                  placeholder="e.g. Dikshya Sharma"
+                  style={{ width: '100%', padding: '0.85rem 1rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--color-gray-300)', outline: 'none' }} 
                 />
               </div>
 
               <div>
-                <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 500, fontSize: '0.875rem' }}>Email</label>
+                <label style={{ display: 'block', marginBottom: '0.4rem', fontWeight: 600, fontSize: '0.875rem', color: 'var(--color-dark-text)' }}>Email</label>
                 <input 
                   type="email" 
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  style={{ width: '100%', padding: '0.75rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--color-gray-300)' }} 
+                  placeholder="name@example.com"
+                  style={{ width: '100%', padding: '0.85rem 1rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--color-gray-300)', outline: 'none' }} 
                 />
               </div>
               
               <div>
-                <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 500, fontSize: '0.875rem' }}>Password</label>
+                <label style={{ display: 'block', marginBottom: '0.4rem', fontWeight: 600, fontSize: '0.875rem', color: 'var(--color-dark-text)' }}>Password (min. 6 characters)</label>
                 <input 
                   type="password" 
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  style={{ width: '100%', padding: '0.75rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--color-gray-300)' }} 
+                  placeholder="••••••••"
+                  style={{ width: '100%', padding: '0.85rem 1rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--color-gray-300)', outline: 'none' }} 
                 />
               </div>
 
               <div>
-                <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 500, fontSize: '0.875rem' }}>Confirm Password</label>
+                <label style={{ display: 'block', marginBottom: '0.4rem', fontWeight: 600, fontSize: '0.875rem', color: 'var(--color-dark-text)' }}>Confirm Password</label>
                 <input 
                   type="password" 
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
-                  style={{ width: '100%', padding: '0.75rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--color-gray-300)' }} 
+                  placeholder="••••••••"
+                  style={{ width: '100%', padding: '0.85rem 1rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--color-gray-300)', outline: 'none' }} 
                 />
               </div>
 
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                <input type="checkbox" id="agree" checked={agree} onChange={(e) => setAgree(e.target.checked)} />
-                <label htmlFor="agree" style={{ fontSize: '0.875rem', color: 'var(--color-gray-600)' }}>I agree to the Terms and Privacy Policy.</label>
-              </div>
-
-              <Button type="submit" variant="primary" fullWidth disabled={isSubmitting}>
-                {isSubmitting ? 'Creating Account...' : 'Create Account'} <ArrowRight size={16} />
+              <Button type="submit" variant="primary" fullWidth disabled={isSubmitting} style={{ borderRadius: 'var(--radius-full)', marginTop: '0.5rem', padding: '0.85rem' }}>
+                {isSubmitting ? 'Creating Account...' : 'Create Account'} <ArrowRight size={18} />
               </Button>
             </form>
           </Card>
 
-          <p style={{ textAlign: 'center', marginTop: '2rem', color: 'var(--color-gray-600)' }}>
-            Already have an account? <Link to="/login" style={{ color: 'var(--color-blue)', fontWeight: 500 }}>Log in</Link>
+          <p style={{ textAlign: 'center', marginTop: '2rem', color: 'var(--color-secondary-text)', fontSize: '0.95rem' }}>
+            Already have an account? <Link to="/login" style={{ color: 'var(--color-primary-green)', fontWeight: 700 }}>Sign In</Link>
           </p>
         </div>
       </div>

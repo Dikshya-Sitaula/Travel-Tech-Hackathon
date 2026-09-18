@@ -3,15 +3,15 @@ export const offlineTripService = {
     return new Promise((resolve) => {
       setTimeout(() => {
         // Save to localStorage for demo purposes
-        localStorage.setItem('treksafe_offline_itinerary', JSON.stringify(itinerary));
-        localStorage.setItem('treksafe_offline_ready', 'true');
+        localStorage.setItem('yatrax_offline_itinerary', JSON.stringify(itinerary));
+        localStorage.setItem('yatrax_offline_ready', 'true');
         resolve(true);
       }, 3000);
     });
   },
 
   getOfflineItinerary: () => {
-    const data = localStorage.getItem('treksafe_offline_itinerary');
+    const data = localStorage.getItem('yatrax_offline_itinerary');
     return data ? JSON.parse(data) : null;
   },
 
@@ -40,3 +40,4 @@ export const offlineTripService = {
     });
   }
 };
+

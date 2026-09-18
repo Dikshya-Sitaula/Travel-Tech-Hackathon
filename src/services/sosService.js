@@ -9,14 +9,15 @@ export const sosService = {
           timestamp: new Date().toISOString(),
           location
         };
-        localStorage.setItem('treksafe_sos_status', JSON.stringify(status));
+        localStorage.setItem('yatrax_sos_status', JSON.stringify(status));
         resolve(status);
       }, 1500);
     });
   },
   
   getSOSStatus: () => {
-    const data = localStorage.getItem('treksafe_sos_status');
+    const data = localStorage.getItem('yatrax_sos_status');
     return data ? JSON.parse(data) : null;
   }
 };
+

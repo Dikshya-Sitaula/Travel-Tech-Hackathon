@@ -1,4 +1,4 @@
-// Mock data for TrekSafe
+// Mock data for YatraX
 
 export const mockItinerary = {
   destination: 'Pokhara',
@@ -131,8 +131,11 @@ export const mockTravelGroups = [
 ];
 
 export const mockEmergencyContacts = [
-  { name: 'Tourist Police', number: '1144', icon: 'ShieldAlert' },
-  { name: 'Ambulance', number: '102', icon: 'Ambulance' },
-  { name: 'Police', number: '100', icon: 'PhoneCall' },
-  { name: 'Nearest Hospital (Pokhara)', number: '061-520067', icon: 'Hospital' }
+  { name: 'Tourist Police Nepal', number: '1144', icon: 'ShieldAlert', description: '24/7 Tourist Assistance Hotline' },
+  { name: 'Himalayan Rescue Association (HRA)', number: '+977-1-4440298', icon: 'ShieldAlert', description: 'Mountain & High Altitude Medical Rescue' },
+  { name: 'Nepal Police Hotline', number: '100', icon: 'PhoneCall', description: 'General Emergency & Security' },
+  { name: 'Ambulance Service', number: '102', icon: 'Ambulance', description: 'Medical Emergency Dispatch' },
+  { name: 'Armed Police Force Rescue', number: '1114', icon: 'ShieldAlert', description: 'Disaster Relief & Emergency Search' },
+  { name: 'Personal Emergency Contact (Mom)', number: '+977 9801234567', icon: 'Phone', description: 'Designated Next of Kin' }
 ];
+

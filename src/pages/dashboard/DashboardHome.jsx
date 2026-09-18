@@ -1,133 +1,273 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { Map, SignalZero, Camera, ShieldAlert, ArrowRight, Compass } from 'lucide-react';
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { 
+  Compass, 
+  ShieldCheck, 
+  Bot, 
+  Map, 
+  Lightbulb, 
+  User, 
+  LogOut, 
+  ArrowRight, 
+  MapPin, 
+  CheckCircle2,
+  Calendar,
+  Sparkles
+} from 'lucide-react';
 import { Card } from '../../components/ui/Card';
 import { Button } from '../../components/ui/Button';
 import { useAuth } from '../../context/AuthContext';
 import { useTrip } from '../../context/TripContext';
+import { DestinationModal } from '../../components/ui/DestinationModal';
 
-const DashboardHome = () => {
-  const { user } = useAuth();
-  const { currentTrip, isOfflineReady } = useTrip();
+export const DashboardHome = () => {
+  const { user, logout } = useAuth();
+  const { currentTrip } = useTrip();
+  const [selectedDestination, setSelectedDestination] = useState(null);
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate('/login', { replace: true });
+  };
+
+  const sampleDestinations = [
+    {
+      id: 'pokhara',
+      name: 'Pokhara',
+      tagline: 'Lakes & Mountain Views',
+      region: 'Gandaki',
+      bestTime: 'Oct - May',
+      vibe: 'Relaxation & Adventure',
+      image: 'https://images.unsplash.com/photo-1544735716-392fe2489ffa?q=80&w=600&auto=format&fit=crop',
+      description: 'Pokhara offers peaceful Phewa Lake boating, dramatic Annapurna mountain backdrops, paragliding, and cozy lakeside dining.',
+      whyVisit: 'Ideal for both peaceful nature retreats and high-adrenaline adventures.',
+      attractions: ['Phewa Lake', 'Sarangkot Sunrise', 'World Peace Pagoda', 'Davis Falls']
+    },
+    {
+      id: 'kathmandu',
+      name: 'Kathmandu',
+      tagline: 'Cultural Heritage Valley',
+      region: 'Bagmati',
+      bestTime: 'Oct - Apr',
+      vibe: 'Historical & Spiritual',
+      image: 'https://images.unsplash.com/photo-1526772662000-3f88f10405ff?q=80&w=600&auto=format&fit=crop',
+      description: 'Explore ancient UNESCO heritage stupas, Newari architecture, vibrant bazaars, and legendary mountain shrines.',
+      whyVisit: 'Witness centuries of rich Nepalese history, art, and vibrant urban culture.',
+      attractions: ['Boudhanath Stupa', 'Swayambhunath', 'Thamel Street Market', 'Pashupatinath']
+    }
+  ];
 
   return (
-    <div>
-      {/* Welcome Banner */}
-      <Card style={{ background: 'linear-gradient(135deg, var(--color-navy), var(--color-blue))', color: 'white', marginBottom: '2rem' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1.5rem' }}>
-          <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.875rem', fontWeight: 600, textTransform: 'uppercase', marginBottom: '0.5rem', color: 'var(--color-green-light)' }}>
-              <Mountain size={16} /> Journey Ready
-            </div>
-            <h2 style={{ fontSize: '1.5rem', color: 'white', marginBottom: '0.5rem' }}>Plan your next adventure with TrekSafe.</h2>
-            <p style={{ opacity: 0.9, maxWidth: '500px' }}>Create a personalized itinerary, save it offline, and explore with confidence.</p>
+    <div className="animate-fade-in" style={{ paddingBottom: '3rem' }}>
+      
+      {/* Dashboard Top Header */}
+      <div 
+        style={{ 
+          display: 'flex', 
+          justify: 'space-between', 
+          alignItems: 'center', 
+          flexWrap: 'wrap', 
+          gap: '1.5rem', 
+          marginBottom: '2.5rem',
+          backgroundColor: '#FFFFFF',
+          padding: '1.75rem 2rem',
+          borderRadius: 'var(--radius-xl)',
+          boxShadow: 'var(--shadow-sm)',
+          border: '1px solid var(--color-gray-200)'
+        }}
+      >
+        <div>
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', color: 'var(--color-primary-green)', fontWeight: 700, fontSize: '0.85rem', textTransform: 'uppercase' }}>
+            <Sparkles size={16} /> Traveler Portal
           </div>
-          <Link to="/dashboard/planner">
-            <Button style={{ backgroundColor: 'white', color: 'var(--color-navy)' }}>
-              Plan a Trip <ArrowRight size={16} />
+          <h1 style={{ fontSize: '2.25rem', color: 'var(--color-dark-green)', margin: '0.2rem 0' }}>
+            Welcome to YatraX, {user?.name || 'Traveler'}!
+          </h1>
+          <p style={{ color: 'var(--color-secondary-text)', margin: 0, fontSize: '1rem' }}>
+            Your personal hub for discovering Nepal, staying safe, and managing your trips.
+          </p>
+        </div>
+      </div>
+
+      {/* Main 5 Cards Grid */}
+      <h2 style={{ fontSize: '1.5rem', marginBottom: '1.25rem', color: 'var(--color-dark-green)' }}>
+        Dashboard Overview
+      </h2>
+
+      <div 
+        style={{ 
+          display: 'grid', 
+          gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', 
+          gap: '1.5rem', 
+          marginBottom: '3rem' 
+        }}
+      >
+        {/* Card 1: Explore Destinations */}
+        <Card 
+          hoverable 
+          style={{ padding: '1.75rem', borderRadius: 'var(--radius-lg)', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}
+        >
+          <div>
+            <div style={{ width: '3rem', height: '3rem', borderRadius: 'var(--radius-md)', backgroundColor: 'var(--color-light-mint)', color: 'var(--color-dark-green)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1.25rem' }}>
+              <Compass size={24} />
+            </div>
+            <h3 style={{ fontSize: '1.25rem', marginBottom: '0.5rem', color: 'var(--color-dark-green)' }}>Explore Destinations</h3>
+            <p style={{ fontSize: '0.9rem', color: 'var(--color-secondary-text)', lineHeight: 1.5, marginBottom: '1.5rem' }}>
+              Discover iconic valleys, Himalayan trekking routes, and cultural hotspots across Nepal.
+            </p>
+          </div>
+          <Button 
+            variant="outline" 
+            onClick={() => setSelectedDestination(sampleDestinations[0])}
+            style={{ width: '100%', justifyContent: 'center', borderRadius: 'var(--radius-md)' }}
+          >
+            Explore Places <ArrowRight size={16} />
+          </Button>
+        </Card>
+
+        {/* Card 2: Travel Safety */}
+        <Card 
+          hoverable 
+          style={{ padding: '1.75rem', borderRadius: 'var(--radius-lg)', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}
+        >
+          <div>
+            <div style={{ width: '3rem', height: '3rem', borderRadius: 'var(--radius-md)', backgroundColor: 'var(--color-light-mint)', color: 'var(--color-dark-green)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1.25rem' }}>
+              <ShieldCheck size={24} />
+            </div>
+            <h3 style={{ fontSize: '1.25rem', marginBottom: '0.5rem', color: 'var(--color-dark-green)' }}>Travel Safety</h3>
+            <p style={{ fontSize: '0.9rem', color: 'var(--color-secondary-text)', lineHeight: 1.5, marginBottom: '1.5rem' }}>
+              Access emergency contacts, mountain altitude advice, water safety rules, and trek prep tips.
+            </p>
+          </div>
+          <Link to="/sos">
+            <Button variant="outline" style={{ width: '100%', justifyContent: 'center', borderRadius: 'var(--radius-md)' }}>
+              Safety & SOS <ArrowRight size={16} />
             </Button>
           </Link>
+        </Card>
+
+        {/* Card 3: AI Travel Assistant */}
+        <Card 
+          hoverable 
+          style={{ padding: '1.75rem', borderRadius: 'var(--radius-lg)', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}
+        >
+          <div>
+            <div style={{ width: '3rem', height: '3rem', borderRadius: 'var(--radius-md)', backgroundColor: 'var(--color-light-mint)', color: 'var(--color-dark-green)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1.25rem' }}>
+              <Bot size={24} />
+            </div>
+            <h3 style={{ fontSize: '1.25rem', marginBottom: '0.5rem', color: 'var(--color-dark-green)' }}>AI Travel Assistant</h3>
+            <p style={{ fontSize: '0.9rem', color: 'var(--color-secondary-text)', lineHeight: 1.5, marginBottom: '1.5rem' }}>
+              Ask travel questions, get packing lists, local etiquette tips, and real-time guidance.
+            </p>
+          </div>
+          <Link to="/assistant">
+            <Button variant="outline" style={{ width: '100%', justifyContent: 'center', borderRadius: 'var(--radius-md)' }}>
+              Launch Chatbot <ArrowRight size={16} />
+            </Button>
+          </Link>
+        </Card>
+
+        {/* Card 4: My Trip */}
+        <Card 
+          hoverable 
+          style={{ padding: '1.75rem', borderRadius: 'var(--radius-lg)', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}
+        >
+          <div>
+            <div style={{ width: '3rem', height: '3rem', borderRadius: 'var(--radius-md)', backgroundColor: 'var(--color-light-mint)', color: 'var(--color-dark-green)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1.25rem' }}>
+              <Map size={24} />
+            </div>
+            <h3 style={{ fontSize: '1.25rem', marginBottom: '0.5rem', color: 'var(--color-dark-green)' }}>My Trip</h3>
+            <p style={{ fontSize: '0.9rem', color: 'var(--color-secondary-text)', lineHeight: 1.5, marginBottom: '1.5rem' }}>
+              {currentTrip ? `Active: ${currentTrip.destination} (${currentTrip.duration})` : 'Create and view your custom day-by-day travel itineraries.'}
+            </p>
+          </div>
+          <Link to="/trip-planner">
+            <Button variant="primary" style={{ width: '100%', justifyContent: 'center', borderRadius: 'var(--radius-md)' }}>
+              {currentTrip ? 'View Itinerary' : 'Plan New Trip'} <ArrowRight size={16} />
+            </Button>
+          </Link>
+        </Card>
+
+        {/* Card 5: Travel Tips */}
+        <Card 
+          hoverable 
+          style={{ padding: '1.75rem', borderRadius: 'var(--radius-lg)', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}
+        >
+          <div>
+            <div style={{ width: '3rem', height: '3rem', borderRadius: 'var(--radius-md)', backgroundColor: 'var(--color-light-mint)', color: 'var(--color-dark-green)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1.25rem' }}>
+              <Lightbulb size={24} />
+            </div>
+            <h3 style={{ fontSize: '1.25rem', marginBottom: '0.5rem', color: 'var(--color-dark-green)' }}>Travel Tips</h3>
+            <p style={{ fontSize: '0.9rem', color: 'var(--color-secondary-text)', lineHeight: 1.5, marginBottom: '1.5rem' }}>
+              Learn essential local etiquette, food highlights (Dal Bhat, Momos), cash requirements, and weather advice.
+            </p>
+          </div>
+          <Link to="/about">
+            <Button variant="outline" style={{ width: '100%', justifyContent: 'center', borderRadius: 'var(--radius-md)' }}>
+              View Tips <ArrowRight size={16} />
+            </Button>
+          </Link>
+        </Card>
+      </div>
+
+      {/* User Profile Section */}
+      <Card 
+        style={{ 
+          padding: '2rem', 
+          borderRadius: 'var(--radius-xl)', 
+          backgroundColor: '#FFFFFF',
+          border: '1px solid var(--color-gray-200)'
+        }}
+      >
+        <div style={{ display: 'flex', alignItems: 'center', justifyBetween: 'space-between', flexWrap: 'wrap', gap: '1.5rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem' }}>
+            <div 
+              style={{ 
+                width: '4rem', 
+                height: '4rem', 
+                borderRadius: '50%', 
+                backgroundColor: 'var(--color-primary-green)', 
+                color: 'white', 
+                display: 'flex', 
+                alignItems: 'center', 
+                justifyContent: 'center',
+                fontSize: '1.5rem',
+                fontWeight: 700
+              }}
+            >
+              {(user?.name || 'T')[0].toUpperCase()}
+            </div>
+            <div>
+              <h3 style={{ fontSize: '1.35rem', color: 'var(--color-dark-green)', marginBottom: '0.2rem' }}>
+                {user?.name || 'Demo Traveler'}
+              </h3>
+              <p style={{ fontSize: '0.9rem', color: 'var(--color-secondary-text)', margin: 0 }}>
+                Email: <strong>{user?.email || 'dikshya@yatrax.com'}</strong> • Role: <strong>{user?.role || 'Traveler'}</strong>
+              </p>
+              <div style={{ marginTop: '0.5rem', display: 'flex', gap: '0.5rem' }}>
+                <span style={{ backgroundColor: 'var(--color-light-mint)', color: 'var(--color-dark-green)', fontSize: '0.75rem', padding: '0.2rem 0.6rem', borderRadius: '12px', fontWeight: 600 }}>
+                  Demo Session Active
+                </span>
+                <span style={{ backgroundColor: 'var(--color-light-mint)', color: 'var(--color-dark-green)', fontSize: '0.75rem', padding: '0.2rem 0.6rem', borderRadius: '12px', fontWeight: 600 }}>
+                  Nepal Explorer
+                </span>
+              </div>
+            </div>
+          </div>
+
         </div>
       </Card>
 
-      <h1 style={{ fontSize: '1.5rem', marginBottom: '0.25rem' }}>Hi, {user?.name || 'Dikshya'}! 👋</h1>
-      <p style={{ color: 'var(--color-gray-600)', marginBottom: '1.5rem' }}>Where will your next journey take you?</p>
-
-      {/* Summary Cards */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem', marginBottom: '2.5rem' }}>
-        <Card>
-          <div style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--color-gray-500)', marginBottom: '0.5rem' }}>CURRENT TRIP</div>
-          {currentTrip ? (
-            <>
-              <div style={{ fontWeight: 600, fontSize: '1.125rem' }}>{currentTrip.destination}</div>
-              <div style={{ fontSize: '0.875rem', color: 'var(--color-gray-600)', marginBottom: '1rem' }}>{currentTrip.duration}</div>
-              <Link to="/dashboard/planner/result"><Button size="sm" variant="outline" fullWidth>View Details</Button></Link>
-            </>
-          ) : (
-            <>
-              <div style={{ fontWeight: 600, fontSize: '1.125rem', marginBottom: '1rem' }}>No trip planned</div>
-              <Link to="/dashboard/planner"><Button size="sm" variant="outline" fullWidth>Create Trip</Button></Link>
-            </>
-          )}
-        </Card>
-
-        <Card>
-          <div style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--color-gray-500)', marginBottom: '0.5rem' }}>TRIP PROGRESS</div>
-          <div style={{ fontWeight: 600, fontSize: '1.125rem', marginBottom: '0.25rem' }}>Not started</div>
-          <div style={{ width: '100%', height: '6px', backgroundColor: 'var(--color-gray-200)', borderRadius: '3px', marginTop: '1rem' }}>
-            <div style={{ width: '0%', height: '100%', backgroundColor: 'var(--color-blue)', borderRadius: '3px' }}></div>
-          </div>
-        </Card>
-
-        <Card>
-          <div style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--color-gray-500)', marginBottom: '0.5rem' }}>CONNECTIVITY</div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: 600, fontSize: '1.125rem', color: 'var(--color-green)' }}>
-            <div style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: 'var(--color-green)' }}></div> Online
-          </div>
-          <div style={{ fontSize: '0.875rem', color: 'var(--color-gray-600)', marginTop: '0.25rem' }}>All services available</div>
-        </Card>
-
-        <Card>
-          <div style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--color-gray-500)', marginBottom: '0.5rem' }}>SAFETY STATUS</div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: 600, fontSize: '1.125rem' }}>
-            <span style={{ color: 'var(--color-green)' }}>✓</span> Ready
-          </div>
-          <div style={{ fontSize: '0.875rem', color: 'var(--color-gray-600)', marginTop: '0.25rem' }}>Emergency info available</div>
-        </Card>
-      </div>
-
-      <h2 style={{ fontSize: '1.25rem', marginBottom: '1.5rem' }}>Your Travel Toolkit</h2>
-
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '1.5rem' }}>
-        <Card>
-          <div style={{ width: '2.5rem', height: '2.5rem', borderRadius: 'var(--radius-md)', backgroundColor: 'var(--color-blue-bg)', color: 'var(--color-blue)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1rem' }}>
-            <Map size={20} />
-          </div>
-          <h3 style={{ fontSize: '1.125rem', marginBottom: '0.5rem' }}>AI Trip Planner</h3>
-          <p style={{ fontSize: '0.875rem', color: 'var(--color-gray-600)', marginBottom: '1.5rem' }}>Build a personalized journey based on your travel style.</p>
-          <Link to="/dashboard/planner"><Button variant="primary" fullWidth>Plan a Trip <ArrowRight size={16} /></Button></Link>
-        </Card>
-
-        <Card>
-          <div style={{ width: '2.5rem', height: '2.5rem', borderRadius: 'var(--radius-md)', backgroundColor: 'var(--color-green-light)', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1rem' }}>
-            <SignalZero size={20} />
-          </div>
-          <h3 style={{ fontSize: '1.125rem', marginBottom: '0.5rem' }}>Offline AI Assistant</h3>
-          <p style={{ fontSize: '0.875rem', color: 'var(--color-gray-600)', marginBottom: '1.5rem' }}>Get essential travel guidance even without connectivity.</p>
-          <Link to="/dashboard/offline"><Button variant="outline" fullWidth>Open Assistant <ArrowRight size={16} /></Button></Link>
-        </Card>
-
-        <Card>
-          <div style={{ width: '2.5rem', height: '2.5rem', borderRadius: 'var(--radius-md)', backgroundColor: 'var(--color-orange-light)', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1rem' }}>
-            <Camera size={20} />
-          </div>
-          <h3 style={{ fontSize: '1.125rem', marginBottom: '0.5rem' }}>Landmark Explorer</h3>
-          <p style={{ fontSize: '0.875rem', color: 'var(--color-gray-600)', marginBottom: '1.5rem' }}>Identify landmarks and discover their stories.</p>
-          <Link to="/dashboard/landmarks"><Button variant="outline" fullWidth>Scan Landmark <ArrowRight size={16} /></Button></Link>
-        </Card>
-
-        <Card>
-          <div style={{ width: '2.5rem', height: '2.5rem', borderRadius: 'var(--radius-md)', backgroundColor: 'var(--color-red-bg)', color: 'var(--color-red)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1rem' }}>
-            <ShieldAlert size={20} />
-          </div>
-          <h3 style={{ fontSize: '1.125rem', marginBottom: '0.5rem' }}>SOS & Emergency</h3>
-          <p style={{ fontSize: '0.875rem', color: 'var(--color-gray-600)', marginBottom: '1.5rem' }}>Access emergency information and SOS assistance.</p>
-          <Link to="/dashboard/sos"><Button variant="outline" fullWidth style={{ color: 'var(--color-red)', borderColor: 'var(--color-red)' }}>Open Emergency <ArrowRight size={16} /></Button></Link>
-        </Card>
-      </div>
-
-      {!currentTrip && (
-        <div style={{ marginTop: '3rem', textAlign: 'center', padding: '3rem', backgroundColor: 'var(--color-gray-100)', borderRadius: 'var(--radius-lg)' }}>
-          <Compass size={40} color="var(--color-gray-400)" style={{ margin: '0 auto 1rem' }} />
-          <h3 style={{ fontSize: '1.25rem', marginBottom: '0.5rem' }}>Your next adventure is waiting.</h3>
-          <p style={{ color: 'var(--color-gray-600)', marginBottom: '1.5rem' }}>Create your first AI-powered itinerary.</p>
-          <Link to="/dashboard/planner"><Button variant="primary">Create Trip <ArrowRight size={16} /></Button></Link>
-        </div>
+      {/* Destination Modal */}
+      {selectedDestination && (
+        <DestinationModal 
+          destination={selectedDestination} 
+          onClose={() => setSelectedDestination(null)} 
+        />
       )}
     </div>
   );
 };
 
-// Add Mountain icon that was missed in imports
-import { Mountain } from 'lucide-react';
 export default DashboardHome;
