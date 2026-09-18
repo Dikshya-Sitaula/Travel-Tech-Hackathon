@@ -1,168 +1,518 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Compass, ShieldCheck, Bot, Sparkles, MapPin, CheckCircle2 } from 'lucide-react';
+import { 
+  Flame, 
+  Lightbulb, 
+  Heart, 
+  Globe, 
+  Target, 
+  Eye, 
+  ArrowRight,
+  UserCheck
+} from 'lucide-react';
 import { Navbar } from '../components/layout/Navbar';
 import { Footer } from '../components/layout/Footer';
 import { Button } from '../components/ui/Button';
 import { Card } from '../components/ui/Card';
 
 const AboutPage = () => {
+  const teamMembers = [
+    {
+      name: 'Dikshya Sitaula',
+      role: 'FRONTEND DEV, AI INTEGRATION & CO-LEAD',
+      avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=300&auto=format&fit=crop'
+    },
+    {
+      name: 'Rishu Prajapati',
+      role: 'BACKEND DEV, AI INTEGRATION & CO-LEAD',
+      avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=300&auto=format&fit=crop'
+    },
+    {
+      name: 'Adita Rai',
+      role: 'DATABASE & MODEL TRAINING',
+      avatar: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=300&auto=format&fit=crop'
+    },
+    {
+      name: 'Liza Shrestha',
+      role: 'DATABASE & MODEL TRAINING',
+      avatar: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=300&auto=format&fit=crop'
+    }
+  ];
+
+  const coreValues = [
+    {
+      icon: Flame,
+      title: 'Sustainability',
+      desc: 'Promoting environmentally responsible trekking habits and greener lifestyles across Nepal\'s trails.'
+    },
+    {
+      icon: Lightbulb,
+      title: 'Innovation',
+      desc: 'Using AI and smart technology to simplify travel planning and make mountain guidance practical.'
+    },
+    {
+      icon: Heart,
+      title: 'Community',
+      desc: 'Positive tourism impact grows stronger through local collaboration, tea house support, and meaningful connections.'
+    },
+    {
+      icon: Globe,
+      title: 'Accessibility',
+      desc: 'Making destination intelligence and safety information accessible to everyone regardless of experience level.'
+    }
+  ];
+
   return (
-    <div className="animate-fade-in" style={{ backgroundColor: 'var(--color-soft-bg)' }}>
+    <div className="animate-fade-in" style={{ backgroundColor: '#FFFFFF', color: 'var(--color-dark-text)' }}>
       <Navbar />
 
       <main>
-        {/* Hero Section */}
-        <section className="hero container" style={{ padding: '5rem 1.5rem 4rem', textAlign: 'center' }}>
-          <div 
-            style={{ 
-              display: 'inline-flex', 
-              alignItems: 'center', 
-              gap: '0.5rem', 
-              backgroundColor: 'var(--color-light-mint)', 
-              color: 'var(--color-dark-green)', 
-              padding: '0.4rem 1.1rem', 
-              borderRadius: 'var(--radius-full)', 
-              fontSize: '0.875rem', 
-              fontWeight: 700, 
-              marginBottom: '1.5rem' 
-            }}
-          >
-            <Sparkles size={16} color="var(--color-primary-green)" /> ABOUT YATRAX
-          </div>
-          <h1 className="hero-title" style={{ fontSize: '3.5rem', marginBottom: '1.25rem', color: 'var(--color-dark-text)' }}>
-            Discover Nepal. Experience More.
-          </h1>
-          <p className="hero-subtitle" style={{ maxWidth: '750px', margin: '0 auto 2.5rem', fontSize: '1.25rem', color: 'var(--color-secondary-text)', lineHeight: 1.6 }}>
-            YatraX is a smart Nepal tourism platform that helps tourists discover destinations, get travel and safety guidance, understand local culture, receive personalized recommendations, and interact with an AI travel assistant.
-          </p>
+        {/* ================= 1. HERO SECTION ================= */}
+        <section className="section" style={{ backgroundColor: '#FFFFFF', padding: '4.5rem 0 3.5rem', textAlign: 'center' }}>
+          <div className="container" style={{ maxWidth: '850px' }}>
+            
+            {/* Top Pill Badge */}
+            <div 
+              style={{ 
+                display: 'inline-flex', 
+                alignItems: 'center', 
+                gap: '0.4rem', 
+                backgroundColor: 'var(--color-light-mint)', 
+                color: 'var(--color-dark-green)', 
+                padding: '0.4rem 1.1rem', 
+                borderRadius: 'var(--radius-full)', 
+                fontSize: '0.85rem', 
+                fontWeight: 700, 
+                marginBottom: '1.5rem',
+                border: '1px solid var(--color-gray-200)'
+              }}
+            >
+              <span>🌱</span> Get to Know Us
+            </div>
 
-          <div style={{ borderRadius: 'var(--radius-xl)', overflow: 'hidden', height: '360px', position: 'relative', boxShadow: 'var(--shadow-lg)' }}>
-            <img 
-              src="https://images.unsplash.com/photo-1544735716-392fe2489ffa?q=80&w=1600&auto=format&fit=crop" 
-              alt="Himalayan Mountain Vista" 
-              style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
-            />
-            <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(13,59,46,0.8) 0%, transparent 60%)' }} />
-            <div style={{ position: 'absolute', bottom: '2rem', left: '2rem', color: 'white', textAlign: 'left' }}>
-              <span style={{ backgroundColor: 'var(--color-primary-green)', padding: '0.25rem 0.75rem', borderRadius: '20px', fontSize: '0.75rem', fontWeight: 700 }}>
-                Smart Travel Innovation
+            {/* Main Title */}
+            <h1 
+              style={{ 
+                fontSize: '3.25rem', 
+                fontWeight: 800, 
+                color: 'var(--color-dark-green)', 
+                lineHeight: 1.15,
+                marginBottom: '1.25rem' 
+              }}
+            >
+              Rooted in Purpose. <br />
+              <span style={{ color: 'var(--color-sage-green)' }}>Growing Together.</span>
+            </h1>
+
+            {/* Subtitle */}
+            <p 
+              style={{ 
+                fontSize: '1.15rem', 
+                color: 'var(--color-secondary-text)', 
+                lineHeight: 1.65, 
+                maxWidth: '720px', 
+                margin: '0 auto 3rem' 
+              }}
+            >
+              We are a passionate team of innovators and creators dedicated to bridging the gap between nature and technology, making sustainable travel and exploration accessible for everyone.
+            </p>
+
+            <hr style={{ borderColor: 'var(--color-gray-200)', opacity: 0.6, margin: '0 0 2.5rem' }} />
+
+            {/* Stat Strip */}
+            <div 
+              style={{ 
+                display: 'grid', 
+                gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', 
+                gap: '2rem', 
+                textAlign: 'center' 
+              }}
+            >
+              <div>
+                <div style={{ fontSize: '2.25rem', fontWeight: 800, color: 'var(--color-dark-green)' }}>10K+</div>
+                <div style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--color-secondary-text)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                  Travel Recommendations
+                </div>
+              </div>
+
+              <div>
+                <div style={{ fontSize: '2.25rem', fontWeight: 800, color: 'var(--color-dark-green)' }}>500+</div>
+                <div style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--color-secondary-text)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                  Destinations & Spots
+                </div>
+              </div>
+
+              <div>
+                <div style={{ fontSize: '2.25rem', fontWeight: 800, color: 'var(--color-dark-green)' }}>100+</div>
+                <div style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--color-secondary-text)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                  Local Trail Guides
+                </div>
+              </div>
+
+              <div>
+                <div style={{ fontSize: '2.25rem', fontWeight: 800, color: 'var(--color-dark-green)', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.3rem' }}>
+                  Growing <span style={{ fontSize: '1.25rem', color: '#4ADE80' }}>↗</span>
+                </div>
+                <div style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--color-secondary-text)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                  Travel Community
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ================= 2. OUR JOURNEY SECTION ================= */}
+        <section className="section" style={{ backgroundColor: 'var(--color-cream)', padding: '5.5rem 0' }}>
+          <div className="container">
+            
+            <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
+              <span style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--color-dark-green)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+                Our Journey
               </span>
-              <h3 style={{ color: 'white', fontSize: '1.75rem', marginTop: '0.35rem' }}>Designed for Nepal's Unique Terrains</h3>
+            </div>
+
+            <div 
+              style={{ 
+                display: 'grid', 
+                gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', 
+                gap: '3.5rem', 
+                alignItems: 'center' 
+              }}
+            >
+              {/* Left Side: Image with Floating Quote Badge */}
+              <div style={{ position: 'relative' }}>
+                <div 
+                  style={{ 
+                    borderRadius: 'var(--radius-xl)', 
+                    overflow: 'hidden', 
+                    boxShadow: 'var(--shadow-lg)', 
+                    height: '440px' 
+                  }}
+                >
+                  <img 
+                    src="https://images.unsplash.com/photo-1544735716-392fe2489ffa?q=80&w=800&auto=format&fit=crop" 
+                    alt="Traveler exploring Nepal mountains" 
+                    style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
+                  />
+                </div>
+
+                {/* Floating Quote Card */}
+                <div 
+                  style={{ 
+                    position: 'absolute', 
+                    bottom: '-1.5rem', 
+                    right: '-1rem', 
+                    backgroundColor: '#FFFFFF', 
+                    padding: '1.25rem 1.5rem', 
+                    borderRadius: 'var(--radius-lg)', 
+                    boxShadow: 'var(--shadow-hover)', 
+                    maxWidth: '300px',
+                    display: 'flex',
+                    alignItems: 'flex-start',
+                    gap: '0.75rem',
+                    border: '1px solid var(--color-gray-200)'
+                  }}
+                >
+                  <span style={{ fontSize: '2rem', lineHeight: 1, color: 'var(--color-mint-green)', fontFamily: 'serif' }}>“</span>
+                  <p style={{ fontSize: '0.85rem', fontWeight: 700, color: 'var(--color-dark-green)', margin: 0, fontStyle: 'italic', lineHeight: 1.4 }}>
+                    "Small green actions today can create healthier, safer communities tomorrow."
+                  </p>
+                </div>
+              </div>
+
+              {/* Right Side: Narrative */}
+              <div>
+                <h2 style={{ fontSize: '2.5rem', fontWeight: 800, color: 'var(--color-dark-green)', marginBottom: '1.5rem', lineHeight: 1.2 }}>
+                  Why We Started This Journey
+                </h2>
+
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem', fontSize: '1rem', color: 'var(--color-secondary-text)', lineHeight: 1.7 }}>
+                  <p>
+                    Our story began with a very real and relatable problem. Many travelers genuinely want to explore Nepal's rich landscapes and cultural heritage but often feel confused about where to start. Travel details are scattered, mountain weather is unpredictable, and remote connectivity can be uncertain.
+                  </p>
+                  <p>
+                    At the same time, local tea houses, guides, and heritage spots need better digital visibility to connect with global explorers seamlessly. We saw an opportunity to create a meaningful bridge between people, nature, and technology.
+                  </p>
+                  <p>
+                    This inspired us to build <strong>YatraX</strong> — a platform that simplifies Nepal travel while making destination guidance, safety, and cultural awareness accessible, affordable, and community-driven. By combining AI technology with sustainable travel practices, we empower individuals to confidently explore Nepal — no matter their experience level.
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </section>
 
-        {/* Section 1: What is YatraX? */}
-        <section className="section" style={{ backgroundColor: '#FFFFFF', padding: '5rem 0' }}>
-          <div className="container" style={{ maxWidth: '850px' }}>
-            <h2 className="section-title text-center" style={{ textAlign: 'center', fontSize: '2.25rem', marginBottom: '1.5rem', color: 'var(--color-dark-green)' }}>
-              What is YatraX?
-            </h2>
-            <p style={{ fontSize: '1.125rem', marginBottom: '1.25rem', lineHeight: 1.7, color: 'var(--color-dark-text)' }}>
-              YatraX is an integrated digital tourism platform created specifically to enhance how travelers discover, prepare for, and navigate their journeys across Nepal.
-            </p>
-            <p style={{ fontSize: '1.05rem', color: 'var(--color-secondary-text)', lineHeight: 1.7 }}>
-              Whether trekking high Himalayan passes, navigating ancient temple precincts in Kathmandu Valley, or embarking on jungle safaris in Terai, YatraX provides structured travel advice, cultural etiquette insights, safety guidelines, and interactive AI assistance in one seamless experience.
-            </p>
-          </div>
-        </section>
+        {/* ================= 3. OUR PURPOSE & PERSPECTIVE ================= */}
+        <section className="section" style={{ backgroundColor: '#FFFFFF', padding: '5.5rem 0' }}>
+          <div className="container">
+            
+            <div style={{ textAlign: 'center', maxWidth: '750px', margin: '0 auto 3.5rem' }}>
+              <span style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--color-dark-green)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+                What Drives Us
+              </span>
+              <h2 style={{ fontSize: '2.5rem', fontWeight: 800, color: 'var(--color-dark-green)', marginTop: '0.5rem' }}>
+                Our Purpose & Perspective
+              </h2>
+            </div>
 
-        {/* Section 2: Our Mission */}
-        <section className="section container text-center" style={{ textAlign: 'center', maxWidth: '850px', padding: '5rem 1.5rem' }}>
-          <span style={{ color: 'var(--color-primary-green)', fontWeight: 700, textTransform: 'uppercase', fontSize: '0.85rem', letterSpacing: '0.08em' }}>
-            Our Purpose
-          </span>
-          <h2 className="section-title" style={{ fontSize: '2.25rem', marginTop: '0.5rem', marginBottom: '1.5rem' }}>
-            Our Mission
-          </h2>
-          <Card style={{ backgroundColor: 'var(--color-light-mint)', border: '1px solid var(--color-mint-green)', padding: '2.5rem', borderRadius: 'var(--radius-xl)' }}>
-            <p style={{ fontSize: '1.5rem', fontWeight: 600, color: 'var(--color-dark-green)', lineHeight: 1.5, margin: 0 }}>
-              "To make exploring Nepal smarter, safer, and deeply culturally enriching for travelers worldwide through accessible digital intelligence."
-            </p>
-          </Card>
-        </section>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '2rem' }}>
+              
+              {/* Left Card: Our Mission & What is YatraX */}
+              <Card 
+                style={{ 
+                  padding: '3rem 2.5rem', 
+                  borderRadius: 'var(--radius-xl)', 
+                  backgroundColor: '#FFFFFF',
+                  boxShadow: 'var(--shadow-md)',
+                  border: '1px solid var(--color-gray-200)',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'space-between'
+                }}
+              >
+                <div>
+                  <div 
+                    style={{ 
+                      width: '3.25rem', 
+                      height: '3.25rem', 
+                      borderRadius: '50%', 
+                      backgroundColor: 'var(--color-light-mint)', 
+                      color: 'var(--color-dark-green)', 
+                      display: 'flex', 
+                      alignItems: 'center', 
+                      justifyContent: 'center', 
+                      marginBottom: '1.75rem' 
+                    }}
+                  >
+                    <Target size={24} />
+                  </div>
 
-        {/* Section 3: Why We Built YatraX */}
-        <section className="section" style={{ backgroundColor: '#FFFFFF', padding: '5rem 0' }}>
-          <div className="container" style={{ maxWidth: '850px' }}>
-            <h2 className="section-title text-center" style={{ textAlign: 'center', fontSize: '2.25rem', marginBottom: '1.5rem', color: 'var(--color-dark-green)' }}>
-              Why We Built YatraX
-            </h2>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem', fontSize: '1.05rem', lineHeight: 1.7, color: 'var(--color-secondary-text)' }}>
-              <p>
-                Nepal is one of the world's most spectacular travel destinations, offering diverse topographies, rich indigenous cultures, and warm hospitality. However, travelers frequently face fragmented travel information, unpredictable mountain weather, altitude challenges, and remote connectivity limitations.
-              </p>
-              <p>
-                We built YatraX to solve these pain points by consolidating destination intelligence, cultural norms, trekking prep tips, emergency guidelines, and AI chat assistance into a single unified platform.
-              </p>
+                  <h3 style={{ fontSize: '1.75rem', fontWeight: 700, color: 'var(--color-dark-green)', marginBottom: '1rem' }}>
+                    What is YatraX & Our Mission
+                  </h3>
+
+                  <p style={{ fontSize: '1rem', color: 'var(--color-secondary-text)', lineHeight: 1.7, marginBottom: '1rem' }}>
+                    YatraX is a smart Nepal tourism platform designed to provide travel guidance, safety information, cultural insights, personalized recommendations, and AI travel assistance.
+                  </p>
+
+                  <p style={{ fontSize: '1rem', color: 'var(--color-secondary-text)', lineHeight: 1.7 }}>
+                    We aim to make travel planning simple, accessible, and enjoyable for everyone. Through AI-powered guidance, personalized itinerary recommendations, and local travel awareness, we empower people to confidently explore Nepal safely and sustainably.
+                  </p>
+                </div>
+              </Card>
+
+              {/* Right Card: Our Vision (Dark Green Card) */}
+              <Card 
+                style={{ 
+                  padding: '3rem 2.5rem', 
+                  borderRadius: 'var(--radius-xl)', 
+                  backgroundColor: 'var(--color-dark-green)', 
+                  color: 'white',
+                  boxShadow: 'var(--shadow-lg)',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'space-between'
+                }}
+              >
+                <div>
+                  <div 
+                    style={{ 
+                      width: '3.25rem', 
+                      height: '3.25rem', 
+                      borderRadius: '50%', 
+                      backgroundColor: 'rgba(255, 255, 255, 0.15)', 
+                      color: 'var(--color-mint-green)', 
+                      display: 'flex', 
+                      alignItems: 'center', 
+                      justifyContent: 'center', 
+                      marginBottom: '1.75rem' 
+                    }}
+                  >
+                    <Eye size={24} />
+                  </div>
+
+                  <h3 style={{ fontSize: '1.75rem', fontWeight: 700, color: 'white', marginBottom: '1rem' }}>
+                    Our Vision
+                  </h3>
+
+                  <p style={{ fontSize: '1.05rem', color: 'var(--color-light-mint)', opacity: 0.95, lineHeight: 1.75 }}>
+                    We envision a future where technology and sustainability work together to reconnect people with nature and culture. Our goal is to create safer mountain travel, support local communities, and build stronger travel awareness through smart environmental care and digital accessibility.
+                  </p>
+                </div>
+              </Card>
+
             </div>
           </div>
         </section>
 
-        {/* Section 4: What We Offer */}
-        <section className="section container" style={{ padding: '5rem 1.5rem' }}>
-          <div style={{ textAlign: 'center', maxWidth: '750px', margin: '0 auto 3.5rem' }}>
-            <h2 className="section-title" style={{ fontSize: '2.25rem', color: 'var(--color-dark-text)' }}>
-              What We Offer
-            </h2>
-            <p style={{ fontSize: '1.1rem', color: 'var(--color-secondary-text)' }}>
-              Core features designed for a modern, confident Nepal journey.
-            </p>
-          </div>
+        {/* ================= 4. THE TEAM BEHIND THE VISION ================= */}
+        <section className="section" style={{ backgroundColor: 'var(--color-cream)', padding: '5.5rem 0' }}>
+          <div className="container">
+            
+            <div style={{ textAlign: 'center', maxWidth: '750px', margin: '0 auto 3.5rem' }}>
+              <span style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--color-dark-green)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+                Our People
+              </span>
+              <h2 style={{ fontSize: '2.5rem', fontWeight: 800, color: 'var(--color-dark-green)', marginTop: '0.5rem', marginBottom: '0.75rem' }}>
+                The Team Behind the Vision
+              </h2>
+              <p style={{ fontSize: '1.1rem', color: 'var(--color-secondary-text)' }}>
+                A passionate team of creators, innovators, and problem-solvers building technology that reconnects people with nature and travel.
+              </p>
+            </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '1.75rem' }}>
-            <Card style={{ padding: '2rem', borderRadius: 'var(--radius-lg)' }}>
-              <div style={{ width: '3rem', height: '3rem', borderRadius: 'var(--radius-md)', backgroundColor: 'var(--color-light-mint)', color: 'var(--color-dark-green)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1.25rem' }}>
-                <Compass size={24} />
-              </div>
-              <h3 style={{ fontSize: '1.25rem', marginBottom: '0.5rem', color: 'var(--color-dark-green)' }}>Smart Destination Discovery</h3>
-              <p style={{ fontSize: '0.925rem' }}>In-depth travel intelligence on iconic regions, heritage sites, and hidden gems.</p>
-            </Card>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1.5rem' }}>
+              {teamMembers.map((member, idx) => (
+                <Card 
+                  key={idx} 
+                  hoverable
+                  style={{ 
+                    padding: '2.25rem 1.5rem', 
+                    borderRadius: 'var(--radius-xl)', 
+                    backgroundColor: '#FFFFFF',
+                    textAlign: 'center',
+                    boxShadow: 'var(--shadow-md)',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center'
+                  }}
+                >
+                  <div 
+                    style={{ 
+                      width: '6.5rem', 
+                      height: '6.5rem', 
+                      borderRadius: '50%', 
+                      overflow: 'hidden', 
+                      marginBottom: '1.5rem',
+                      boxShadow: 'var(--shadow-md)',
+                      border: '3px solid var(--color-light-mint)'
+                    }}
+                  >
+                    <img 
+                      src={member.avatar} 
+                      alt={member.name} 
+                      style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
+                    />
+                  </div>
 
-            <Card style={{ padding: '2rem', borderRadius: 'var(--radius-lg)' }}>
-              <div style={{ width: '3rem', height: '3rem', borderRadius: 'var(--radius-md)', backgroundColor: 'var(--color-light-mint)', color: 'var(--color-dark-green)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1.25rem' }}>
-                <ShieldCheck size={24} />
-              </div>
-              <h3 style={{ fontSize: '1.25rem', marginBottom: '0.5rem', color: 'var(--color-dark-green)' }}>Safety & Trek Prep Guidance</h3>
-              <p style={{ fontSize: '0.925rem' }}>Altitude safety advice, permit details, emergency contacts, and packing lists.</p>
-            </Card>
+                  <h3 style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--color-dark-green)', marginBottom: '0.4rem' }}>
+                    {member.name}
+                  </h3>
 
-            <Card style={{ padding: '2rem', borderRadius: 'var(--radius-lg)' }}>
-              <div style={{ width: '3rem', height: '3rem', borderRadius: 'var(--radius-md)', backgroundColor: 'var(--color-light-mint)', color: 'var(--color-dark-green)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1.25rem' }}>
-                <Bot size={24} />
-              </div>
-              <h3 style={{ fontSize: '1.25rem', marginBottom: '0.5rem', color: 'var(--color-dark-green)' }}>AI Travel Companion</h3>
-              <p style={{ fontSize: '0.925rem' }}>Interactive AI assistant delivering instant responses to your travel queries.</p>
-            </Card>
+                  <div style={{ fontSize: '0.725rem', fontWeight: 700, color: 'var(--color-secondary-text)', textTransform: 'uppercase', letterSpacing: '0.05em', lineHeight: 1.4 }}>
+                    {member.role}
+                  </div>
+                </Card>
+              ))}
+            </div>
 
-            <Card style={{ padding: '2rem', borderRadius: 'var(--radius-lg)' }}>
-              <div style={{ width: '3rem', height: '3rem', borderRadius: 'var(--radius-md)', backgroundColor: 'var(--color-light-mint)', color: 'var(--color-dark-green)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1.25rem' }}>
-                <MapPin size={24} />
-              </div>
-              <h3 style={{ fontSize: '1.25rem', marginBottom: '0.5rem', color: 'var(--color-dark-green)' }}>Cultural Respect & Etiquette</h3>
-              <p style={{ fontSize: '0.925rem' }}>Practical guidance on local customs, greetings, temple etiquette, and traditions.</p>
-            </Card>
           </div>
         </section>
 
-        {/* Section 5: Our Vision */}
-        <section className="section" style={{ backgroundColor: '#FFFFFF', padding: '5rem 0' }}>
-          <div className="container" style={{ maxWidth: '850px', textAlign: 'center' }}>
-            <h2 className="section-title" style={{ fontSize: '2.25rem', marginBottom: '1.25rem', color: 'var(--color-dark-green)' }}>
-              Our Vision
-            </h2>
-            <p style={{ fontSize: '1.125rem', color: 'var(--color-secondary-text)', lineHeight: 1.7, marginBottom: '2.5rem' }}>
-              We envision a future where every traveler visiting Nepal can experience its breathtaking mountains, rich culture, and warm hospitality with confidence, safety, and cultural reverence.
-            </p>
+        {/* ================= 5. THE VALUES THAT SHAPE OUR VISION ================= */}
+        <section className="section" style={{ backgroundColor: '#FFFFFF', padding: '5.5rem 0' }}>
+          <div className="container">
+            
+            <div style={{ textAlign: 'center', maxWidth: '750px', margin: '0 auto 3.5rem' }}>
+              <span style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--color-dark-green)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+                Our Core Values
+              </span>
+              <h2 style={{ fontSize: '2.5rem', fontWeight: 800, color: 'var(--color-dark-green)', marginTop: '0.5rem' }}>
+                The Values That Shape Our Vision
+              </h2>
+            </div>
 
-            <Link to="/signup">
-              <Button size="lg" variant="primary" style={{ padding: '0.9rem 2.25rem', borderRadius: 'var(--radius-full)' }}>
-                Start Your Journey With YatraX <ArrowRight size={18} />
-              </Button>
-            </Link>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(230px, 1fr))', gap: '1.5rem' }}>
+              {coreValues.map((val, idx) => (
+                <Card 
+                  key={idx} 
+                  hoverable
+                  style={{ 
+                    padding: '2.25rem 1.75rem', 
+                    borderRadius: 'var(--radius-xl)', 
+                    backgroundColor: '#FFFFFF',
+                    boxShadow: 'var(--shadow-sm)',
+                    border: '1px solid var(--color-gray-200)',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'flex-start'
+                  }}
+                >
+                  <div 
+                    style={{ 
+                      width: '2.75rem', 
+                      height: '2.75rem', 
+                      borderRadius: '50%', 
+                      backgroundColor: 'var(--color-light-mint)', 
+                      color: 'var(--color-dark-green)', 
+                      display: 'flex', 
+                      alignItems: 'center', 
+                      justifyContent: 'center', 
+                      marginBottom: '1.25rem' 
+                    }}
+                  >
+                    <val.icon size={20} />
+                  </div>
+
+                  <h3 style={{ fontSize: '1.2rem', fontWeight: 700, color: 'var(--color-dark-green)', marginBottom: '0.75rem' }}>
+                    {val.title}
+                  </h3>
+
+                  <p style={{ fontSize: '0.9rem', color: 'var(--color-secondary-text)', lineHeight: 1.6, margin: 0 }}>
+                    {val.desc}
+                  </p>
+                </Card>
+              ))}
+            </div>
+
           </div>
         </section>
+
+        {/* ================= 6. CALL TO ACTION SECTION ================= */}
+        <section className="section" style={{ backgroundColor: '#FFFFFF', padding: '4rem 0 6rem', textAlign: 'center' }}>
+          <div className="container" style={{ maxWidth: '750px' }}>
+            <h2 style={{ fontSize: '2.75rem', fontWeight: 800, color: 'var(--color-dark-green)', marginBottom: '1rem' }}>
+              Ready to Start Your Nepal Journey?
+            </h2>
+            <p style={{ fontSize: '1.15rem', color: 'var(--color-secondary-text)', marginBottom: '2.5rem', lineHeight: 1.6 }}>
+              Explore Nepal smarter with AI-powered travel guidance, safety information, and personalized recommendations.
+            </p>
+
+            <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
+              <Link to="/signup">
+                <Button 
+                  size="lg" 
+                  variant="primary" 
+                  style={{ 
+                    padding: '0.9rem 2.25rem', 
+                    borderRadius: 'var(--radius-full)', 
+                    fontSize: '1rem',
+                    backgroundColor: 'var(--color-dark-green)',
+                    boxShadow: 'var(--shadow-md)'
+                  }}
+                >
+                  Get Started Now
+                </Button>
+              </Link>
+
+              <Link to="/">
+                <Button 
+                  size="lg" 
+                  variant="outline" 
+                  style={{ 
+                    padding: '0.9rem 2.25rem', 
+                    borderRadius: 'var(--radius-full)', 
+                    fontSize: '1rem',
+                    borderColor: 'var(--color-gray-300)'
+                  }}
+                >
+                  Explore Destinations
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </section>
+
       </main>
 
       <Footer />
