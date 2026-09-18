@@ -17,7 +17,7 @@ const TripPlannerPage = () => {
 
   const stepTitles = [
     "Trip Basics",
-    "Travel Style",
+    "Activities",
     "Discovery Preferences",
     "Pace & Social Preference",
     "Review & Generate"

@@ -62,6 +62,126 @@ const ItineraryResultPage = () => {
     }
   };
 
+  const renderActivityDetails = (act) => {
+    const baseRows = [
+      ['Location', act.location || 'Local area'],
+      ['Description', act.description || 'Planned for your selected interests and pace.']
+    ];
+
+    if (act.type === 'trekking') {
+      return (
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: '0.75rem', fontSize: '0.84rem' }}>
+          {[
+            ['Trek', act.route || act.name],
+            ['Difficulty', act.difficulty || 'Moderate'],
+            ['Duration', `${act.durationHours || 0} hours / ${act.durationDays || 1} day(s)`],
+            ['Distance', act.distance || 'Not specified'],
+            ['Elevation', act.elevation || 'Not specified'],
+            ['Guide', act.guideRequired ? `Required • NPR ${act.guideCost || 0}` : 'Not required'],
+            ['Permit', act.permitRequired ? `Required • NPR ${act.permitCost || 0}` : 'Not required'],
+            ['Equipment', Array.isArray(act.equipmentRequired) ? act.equipmentRequired.join(', ') : 'Standard trekking gear'],
+            ['Transport', `NPR ${act.transportCost || 0}`],
+            ['Cost', `NPR ${act.activityCost || 0}`],
+            ['Safety', act.safetyInformation || 'Subject to weather and local conditions.']
+          ].map(([label, value]) => (
+            <div key={label} style={{ background: 'var(--color-very-light-bg)', borderRadius: 'var(--radius-sm)', padding: '0.55rem 0.7rem' }}>
+              <strong>{label}:</strong> {value}
+            </div>
+          ))}
+        </div>
+      );
+    }
+
+    if (act.type === 'paragliding') {
+      return (
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: '0.75rem', fontSize: '0.84rem' }}>
+          {[
+            ['Location', act.location || 'Launch area'],
+            ['Flight Duration', act.flightDuration || '15-25 minutes'],
+            ['Total Experience', act.totalExperienceDuration || '2-3 hours'],
+            ['Estimated Cost', `NPR ${act.estimatedPrice || act.activityCost || 0}`],
+            ['Transport', `NPR ${act.transportCost || 0}`],
+            ['Weather', act.weatherDependent ? 'Subject to weather and local availability.' : 'Usually stable with local conditions.'],
+            ['Requirements', Array.isArray(act.requirements) ? act.requirements.join(', ') : 'Weather and weight restrictions apply'],
+            ['Booking', act.bookingInformation || 'Availability should be confirmed with the local provider.']
+          ].map(([label, value]) => (
+            <div key={label} style={{ background: 'var(--color-very-light-bg)', borderRadius: 'var(--radius-sm)', padding: '0.55rem 0.7rem' }}>
+              <strong>{label}:</strong> {value}
+            </div>
+          ))}
+        </div>
+      );
+    }
+
+    if (act.type === 'food') {
+      return (
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: '0.75rem', fontSize: '0.84rem' }}>
+          {[
+            ['Meal', act.meal || 'Food'],
+            ['Cuisine', act.cuisine || 'Local Nepali'],
+            ['Location', act.location || 'Local market'],
+            ['Timing', act.timing || 'Flexible'],
+            ['Cost', `NPR ${act.estimatedCost || act.activityCost || 0}`],
+            ['Details', act.description || 'Local food experience.']
+          ].map(([label, value]) => (
+            <div key={label} style={{ background: 'var(--color-very-light-bg)', borderRadius: 'var(--radius-sm)', padding: '0.55rem 0.7rem' }}>
+              <strong>{label}:</strong> {value}
+            </div>
+          ))}
+        </div>
+      );
+    }
+
+    if (act.type === 'culture') {
+      return (
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: '0.75rem', fontSize: '0.84rem' }}>
+          {[
+            ['Location', act.location || 'Cultural site'],
+            ['Duration', `${act.durationHours || 2} hours`],
+            ['Opening Hours', act.openingHours || 'Usually daytime hours'],
+            ['Entry Fee', `NPR ${act.entryFee || 0}`],
+            ['Transport', `NPR ${act.transportCost || 0}`],
+            ['Cost', `NPR ${act.totalCost || act.activityCost || 0}`],
+            ['Details', act.description || 'Cultural experience.']
+          ].map(([label, value]) => (
+            <div key={label} style={{ background: 'var(--color-very-light-bg)', borderRadius: 'var(--radius-sm)', padding: '0.55rem 0.7rem' }}>
+              <strong>{label}:</strong> {value}
+            </div>
+          ))}
+        </div>
+      );
+    }
+
+    if (act.type === 'nature' || act.type === 'wellness' || act.type === 'rafting') {
+      return (
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: '0.75rem', fontSize: '0.84rem' }}>
+          {[
+            ['Location', act.location || 'Outdoor area'],
+            ['Duration', act.durationHours ? `${act.durationHours} hours` : 'Flexible'],
+            ['Weather', act.weatherDependent ? 'Subject to weather and local availability.' : 'Generally feasible'],
+            ['Transport', `NPR ${act.transportCost || 0}`],
+            ['Cost', `NPR ${act.totalCost || act.estimatedPrice || act.activityCost || 0}`],
+            ['Notes', act.description || act.safetyInformation || 'Planned around your selected preferences.']
+          ].map(([label, value]) => (
+            <div key={label} style={{ background: 'var(--color-very-light-bg)', borderRadius: 'var(--radius-sm)', padding: '0.55rem 0.7rem' }}>
+              <strong>{label}:</strong> {value}
+            </div>
+          ))}
+        </div>
+      );
+    }
+
+    return (
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: '0.75rem', fontSize: '0.84rem' }}>
+        {baseRows.map(([label, value]) => (
+          <div key={label} style={{ background: 'var(--color-very-light-bg)', borderRadius: 'var(--radius-sm)', padding: '0.55rem 0.7rem' }}>
+            <strong>{label}:</strong> {value}
+          </div>
+        ))}
+      </div>
+    );
+  };
+
   return (
     <div className="animate-fade-in" style={{ paddingBottom: '4rem' }}>
       {/* Toast Notification */}
@@ -188,20 +308,26 @@ const ItineraryResultPage = () => {
 
                       {/* Why YatraX Recommends It */}
                       <div style={{ backgroundColor: 'var(--color-very-light-bg)', padding: '0.75rem 1rem', borderRadius: 'var(--radius-md)', borderLeft: '3px solid var(--color-primary-green)', marginBottom: '1rem', fontSize: '0.85rem' }}>
-                        <strong style={{ color: 'var(--color-dark-green)' }}>Why YatraX recommends it: </strong> 
-                        Curated for photography, scenic immersion, and matching your travel style.
+                        <strong style={{ color: 'var(--color-dark-green)' }}>Why YatraX recommends it: </strong>
+                        Curated for your selected activities, budget, and pace.
+                      </div>
+
+                      <div style={{ marginBottom: '1rem' }}>
+                        {renderActivityDetails(act)}
                       </div>
 
                       <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
-                        {act.tags.map(t => <Badge key={t} variant="gray">{t}</Badge>)}
-                        <Badge variant={act.crowd === 'Low' || act.crowd === 'Very Low' ? 'green' : 'gray'}>Crowd: {act.crowd}</Badge>
+                        {(Array.isArray(act.tags) ? act.tags : [act.type || 'Activity']).map((t) => <Badge key={t} variant="gray">{t}</Badge>)}
+                        <Badge variant={act.crowd === 'Low' || act.crowd === 'Very Low' ? 'green' : 'gray'}>Crowd: {act.crowd || 'Flexible'}</Badge>
                       </div>
                     </div>
 
                     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '0.35rem' }}>
-                      <span style={{ fontWeight: 700, color: 'var(--color-primary-green)', fontSize: '0.95rem' }}>{act.cost}</span>
+                      <span style={{ fontWeight: 700, color: 'var(--color-primary-green)', fontSize: '0.95rem' }}>
+                        {act.totalCost ? `NPR ${act.totalCost}` : (act.cost || act.estimatedCost || 'NPR 0')}
+                      </span>
                       <span style={{ fontSize: '0.8rem', color: 'var(--color-secondary-text)', display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
-                        <Clock size={12} /> {act.travelTime}
+                        <Clock size={12} /> {act.travelTime || (act.durationHours ? `${act.durationHours} hrs` : 'Flexible timing')}
                       </span>
                     </div>
                   </div>
