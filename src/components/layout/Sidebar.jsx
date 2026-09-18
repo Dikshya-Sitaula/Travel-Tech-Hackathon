@@ -28,8 +28,7 @@ export const Sidebar = ({ isOpen, setIsOpen }) => {
     <>
       <div className={`sidebar ${isOpen ? 'open' : ''}`}>
         <div className="sidebar-header" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '1.25rem 1.5rem' }}>
-          <img src="/assets/logo.png" alt="YatraX Logo" style={{ height: '2rem', width: 'auto', borderRadius: '4px', backgroundColor: 'white', padding: '2px' }} />
-          <span style={{ fontFamily: 'var(--font-heading)', fontWeight: 700, fontSize: '1.4rem', color: 'white' }}>YatraX</span>
+          <img src="/assets/logo.png" alt="YatraX Logo" style={{ height: '2.2rem', width: 'auto', objectFit: 'contain', backgroundColor: 'white', padding: '3px 8px', borderRadius: 'var(--radius-sm)' }} />
           {isOpen && (
             <button className="mobile-close-btn" onClick={() => setIsOpen(false)} style={{ marginLeft: 'auto', color: 'white' }}>
               <X size={20} />
