@@ -17,7 +17,7 @@ const TripPlannerPage = () => {
 
   const stepTitles = [
     "Trip Basics",
-    "Travel Style",
+    "Activities",
     "Discovery Preferences",
     "Pace & Social Preference",
     "Review & Generate"
@@ -57,7 +57,11 @@ const TripPlannerPage = () => {
     <div className="planner-container animate-fade-in" style={{ paddingBottom: '3rem' }}>
       <div className="planner-header" style={{ marginBottom: '1.5rem' }}>
         <div className="planner-title-area" style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-          <div className="planner-icon" style={{ fontSize: '2rem', backgroundColor: 'var(--color-light-mint)', padding: '0.5rem', borderRadius: 'var(--radius-md)' }}>✨</div>
+          <img
+            src="/assets/logo.png"
+            alt="YatraX Logo"
+            style={{ height: '2.8rem', width: 'auto', objectFit: 'contain', backgroundColor: 'white', padding: '0.35rem 0.7rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--color-gray-200)' }}
+          />
           <div>
             <h1 style={{ fontSize: '1.75rem', marginBottom: '0.25rem', fontFamily: 'var(--font-heading)' }}>YatraX AI Trip Planner</h1>
             <p style={{ color: 'var(--color-secondary-text)' }}>Customize your Nepal journey step by step with intelligent recommendations.</p>

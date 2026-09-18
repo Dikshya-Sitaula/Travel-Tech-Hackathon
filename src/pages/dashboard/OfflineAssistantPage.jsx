@@ -51,23 +51,20 @@ const OfflineAssistantPage = () => {
     setIsTyping(false);
   };
 
-  const quickPrompts = [
-    "What should I pack for Nepal?",
-    "What can I do in Pokhara?",
-    "What is the best time to visit Mustang?",
-    "Give me local food recommendations.",
-    "What should I know before trekking?"
-  ];
-
   return (
     <div className="animate-fade-in" style={{ height: 'calc(100vh - 7rem)', display: 'flex', flexDirection: 'column' }}>
       {/* Header */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem' }}>
-        <div>
-          <h1 style={{ fontSize: '1.75rem', display: 'flex', alignItems: 'center', gap: '0.65rem', fontFamily: 'var(--font-heading)' }}>
-            <Bot color="var(--color-primary-green)" size={28} /> YatraX AI Assistant
-          </h1>
-          <p style={{ color: 'var(--color-secondary-text)', fontSize: '0.9rem' }}>Your intelligent travel companion for Nepal.</p>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+          <img
+            src="/assets/logo.png"
+            alt="YatraX Logo"
+            style={{ height: '2.8rem', width: 'auto', objectFit: 'contain', backgroundColor: 'white', padding: '0.3rem 0.6rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--color-gray-200)' }}
+          />
+          <div>
+            <h1 style={{ fontSize: '1.75rem', margin: 0, fontFamily: 'var(--font-heading)' }}>YatraX AI Assistant</h1>
+            <p style={{ color: 'var(--color-secondary-text)', fontSize: '0.9rem', margin: '0.2rem 0 0' }}>Your intelligent travel companion for Nepal.</p>
+          </div>
         </div>
         
         <Badge variant={isOnline ? 'green' : 'gray'} style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', padding: '0.4rem 0.85rem' }}>
@@ -113,27 +110,6 @@ const OfflineAssistantPage = () => {
 
         {/* Input & Suggested Chips Bar */}
         <div style={{ padding: '1rem', borderTop: '1px solid var(--color-gray-200)', backgroundColor: 'white' }}>
-          <div style={{ display: 'flex', gap: '0.5rem', overflowX: 'auto', paddingBottom: '0.75rem', scrollbarWidth: 'none' }}>
-            {quickPrompts.map(p => (
-              <Badge 
-                key={p} 
-                variant="gray" 
-                onClick={() => handleSend(p)}
-                style={{ 
-                  cursor: 'pointer', 
-                  whiteSpace: 'nowrap', 
-                  border: '1px solid var(--color-mint-green)',
-                  backgroundColor: 'var(--color-very-light-bg)',
-                  color: 'var(--color-dark-green)',
-                  fontWeight: 500,
-                  padding: '0.4rem 0.85rem'
-                }}
-              >
-                {p}
-              </Badge>
-            ))}
-          </div>
-          
           <form 
             onSubmit={(e) => { e.preventDefault(); handleSend(); }}
             style={{ display: 'flex', gap: '0.5rem', position: 'relative' }}
