@@ -1,13 +1,19 @@
 import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import { Button } from '../ui/Button';
+import { useAuth } from '../../context/AuthContext';
 
 export const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
+  const { isAuthenticated } = useAuth();
 
   const isActive = (path) => location.pathname === path;
+  const handleGetStarted = () => {
+    navigate(isAuthenticated ? '/dashboard' : '/login', { replace: true });
+  };
 
   return (
     <nav className="navbar" style={{
@@ -82,22 +88,22 @@ export const Navbar = () => {
 
         {/* Right Actions: Sign In & Get Started */}
         <div className="navbar-actions" style={{ display: 'flex', alignItems: 'center', gap: '1.25rem' }}>
-          <Link 
-            to="/login" 
-            className="nav-link"
-            style={{ 
-              fontWeight: 600, 
-              color: 'var(--color-dark-green)',
-              fontSize: '0.95rem'
-            }}
-          >
-            Sign In
-          </Link>
-          <Link to="/signup">
-            <Button variant="primary" style={{ padding: '0.65rem 1.4rem', borderRadius: 'var(--radius-full)' }}>
-              Get Started
-            </Button>
-          </Link>
+          {!isAuthenticated && (
+            <Link 
+              to="/login" 
+              className="nav-link"
+              style={{ 
+                fontWeight: 600, 
+                color: 'var(--color-dark-green)',
+                fontSize: '0.95rem'
+              }}
+            >
+              Sign In
+            </Link>
+          )}
+          <Button variant="primary" onClick={handleGetStarted} style={{ padding: '0.65rem 1.4rem', borderRadius: 'var(--radius-full)' }}>
+            Get Started
+          </Button>
         </div>
 
         {/* Mobile Hamburger Button */}
@@ -152,16 +158,21 @@ export const Navbar = () => {
             Contact
           </Link>
           <hr style={{ borderColor: 'var(--color-gray-200)', margin: '0.25rem 0' }} />
-          <Link 
-            to="/login" 
-            onClick={() => setMobileMenuOpen(false)}
-            style={{ fontWeight: 600, color: 'var(--color-primary-green)', fontSize: '1.1rem' }}
-          >
-            Sign In
-          </Link>
-          <Link to="/signup" onClick={() => setMobileMenuOpen(false)}>
-            <Button variant="primary" fullWidth>Get Started</Button>
-          </Link>
+          {!isAuthenticated && (
+            <Link 
+              to="/login" 
+              onClick={() => setMobileMenuOpen(false)}
+              style={{ fontWeight: 600, color: 'var(--color-primary-green)', fontSize: '1.1rem' }}
+            >
+              Sign In
+            </Link>
+          )}
+          <Button variant="primary" fullWidth onClick={() => {
+            setMobileMenuOpen(false);
+            handleGetStarted();
+          }}>
+            Get Started
+          </Button>
         </div>
       )}
 

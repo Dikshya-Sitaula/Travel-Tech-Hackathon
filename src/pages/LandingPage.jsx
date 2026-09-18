@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { 
   ArrowRight, 
   MapPin, 
@@ -20,6 +20,7 @@ import { Button } from '../components/ui/Button';
 import { Card } from '../components/ui/Card';
 import { DestinationModal } from '../components/ui/DestinationModal';
 import { AIChatWidget } from '../components/ui/AIChatWidget';
+import { useAuth } from '../context/AuthContext';
 
 const destinationsList = [
   {
@@ -134,6 +135,12 @@ const destinationsList = [
 
 const LandingPage = () => {
   const [selectedDestination, setSelectedDestination] = useState(null);
+  const navigate = useNavigate();
+  const { isAuthenticated } = useAuth();
+
+  const handleGetStarted = () => {
+    navigate(isAuthenticated ? '/dashboard' : '/login', { replace: true });
+  };
 
   return (
     <div className="landing-page animate-fade-in" style={{ backgroundColor: 'var(--color-soft-bg)' }}>
@@ -170,11 +177,9 @@ const LandingPage = () => {
           </p>
 
           <div className="hero-actions" style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
-            <Link to="/signup">
-              <Button size="lg" variant="primary" style={{ padding: '0.9rem 2.25rem', borderRadius: 'var(--radius-full)', fontSize: '1.05rem' }}>
-                Get Started <ArrowRight size={18} />
-              </Button>
-            </Link>
+            <Button size="lg" variant="primary" onClick={handleGetStarted} style={{ padding: '0.9rem 2.25rem', borderRadius: 'var(--radius-full)', fontSize: '1.05rem' }}>
+              Get Started <ArrowRight size={18} />
+            </Button>
             <Link to="/about">
               <Button size="lg" variant="outline" style={{ padding: '0.9rem 2.25rem', borderRadius: 'var(--radius-full)', fontSize: '1.05rem' }}>
                 Learn More
