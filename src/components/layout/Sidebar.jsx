@@ -28,7 +28,9 @@ export const Sidebar = ({ isOpen, setIsOpen }) => {
     <>
       <div className={`sidebar ${isOpen ? 'open' : ''}`}>
         <div className="sidebar-header" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '1.25rem 1.5rem' }}>
-          <img src="/assets/logo.png" alt="YatraX Logo" style={{ height: '2.2rem', width: 'auto', objectFit: 'contain', backgroundColor: 'white', padding: '3px 8px', borderRadius: 'var(--radius-sm)' }} />
+          <NavLink to="/">
+            <img src="/assets/logo.png" alt="YatraX Logo" style={{ height: '2.2rem', width: 'auto', objectFit: 'contain', backgroundColor: 'white', padding: '3px 8px', borderRadius: 'var(--radius-sm)' }} />
+          </NavLink>
           {isOpen && (
             <button className="mobile-close-btn" onClick={() => setIsOpen(false)} style={{ marginLeft: 'auto', color: 'white' }}>
               <X size={20} />

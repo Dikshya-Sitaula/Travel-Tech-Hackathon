@@ -1,14 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { 
+  UserCheck,
   Flame, 
   Lightbulb, 
   Heart, 
   Globe, 
   Target, 
   Eye, 
-  ArrowRight,
-  UserCheck
+  ArrowRight
 } from 'lucide-react';
 import { Navbar } from '../components/layout/Navbar';
 import { Footer } from '../components/layout/Footer';
@@ -20,22 +20,22 @@ const AboutPage = () => {
     {
       name: 'Dikshya Sitaula',
       role: 'FRONTEND DEV, AI INTEGRATION & CO-LEAD',
-      avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=300&auto=format&fit=crop'
+      avatar: '/assets/team/dikshya.jpg'
     },
     {
-      name: 'Rishu Prajapati',
+      name: 'Devasish Bogati',
       role: 'BACKEND DEV, AI INTEGRATION & CO-LEAD',
-      avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=300&auto=format&fit=crop'
+      avatar: '/assets/team/devasish.jpg'
     },
     {
-      name: 'Adita Rai',
+      name: 'Shreya Thapa',
       role: 'DATABASE & MODEL TRAINING',
-      avatar: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=300&auto=format&fit=crop'
+      avatar: '/assets/team/shreya.jpg'
     },
     {
-      name: 'Liza Shrestha',
+      name: 'Sulav Nepal',
       role: 'DATABASE & MODEL TRAINING',
-      avatar: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=300&auto=format&fit=crop'
+      avatar: '/assets/team/sulav.jpg'
     }
   ];
 
@@ -71,23 +71,25 @@ const AboutPage = () => {
         <section className="section" style={{ backgroundColor: '#FFFFFF', padding: '4.5rem 0 3.5rem', textAlign: 'center' }}>
           <div className="container" style={{ maxWidth: '850px' }}>
             
-            {/* Top Pill Badge */}
+            {/* Top Pill Badge with Person Icon */}
             <div 
               style={{ 
                 display: 'inline-flex', 
                 alignItems: 'center', 
-                gap: '0.4rem', 
+                gap: '0.5rem', 
                 backgroundColor: 'var(--color-light-mint)', 
                 color: 'var(--color-dark-green)', 
-                padding: '0.4rem 1.1rem', 
+                padding: '0.45rem 1.25rem', 
                 borderRadius: 'var(--radius-full)', 
                 fontSize: '0.85rem', 
                 fontWeight: 700, 
                 marginBottom: '1.5rem',
-                border: '1px solid var(--color-gray-200)'
+                border: '1px solid var(--color-gray-200)',
+                boxShadow: 'var(--shadow-sm)'
               }}
             >
-              <span>🌱</span> Get to Know Us
+              <UserCheck size={16} color="var(--color-primary-green)" />
+              <span>Get to Know Us</span>
             </div>
 
             {/* Main Title */}
@@ -179,45 +181,28 @@ const AboutPage = () => {
                 alignItems: 'center' 
               }}
             >
-              {/* Left Side: Image with Floating Quote Badge */}
-              <div style={{ position: 'relative' }}>
-                <div 
-                  style={{ 
-                    borderRadius: 'var(--radius-xl)', 
-                    overflow: 'hidden', 
-                    boxShadow: 'var(--shadow-lg)', 
-                    height: '440px' 
-                  }}
-                >
-                  <img 
-                    src="https://images.unsplash.com/photo-1544735716-392fe2489ffa?q=80&w=800&auto=format&fit=crop" 
-                    alt="Traveler exploring Nepal mountains" 
-                    style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
-                  />
+              {/* Left Side: Living trail map */}
+              <div className="journey-visual" aria-label="Animated illustration of a Nepal trail journey">
+                <div className="journey-sun" />
+                <div className="journey-cloud journey-cloud-one" />
+                <div className="journey-cloud journey-cloud-two" />
+                <div className="journey-mountain journey-mountain-back" />
+                <div className="journey-mountain journey-mountain-front" />
+                <div className="journey-route journey-route-one" />
+                <div className="journey-route journey-route-two" />
+                <div className="journey-marker journey-marker-start"><span>01</span></div>
+                <div className="journey-marker journey-marker-mid"><span>02</span></div>
+                <div className="journey-marker journey-marker-end"><span>03</span></div>
+                <div className="journey-peak-label">Himalayan trail <strong>→</strong></div>
+                <div className="journey-panel">
+                  <div className="journey-panel-icon"><Globe size={18} /></div>
+                  <div>
+                    <span>LIVE EXPLORATION</span>
+                    <strong>Find your way to wonder</strong>
+                  </div>
+                  <div className="journey-signal"><i /><i /><i /></div>
                 </div>
-
-                {/* Floating Quote Card */}
-                <div 
-                  style={{ 
-                    position: 'absolute', 
-                    bottom: '-1.5rem', 
-                    right: '-1rem', 
-                    backgroundColor: '#FFFFFF', 
-                    padding: '1.25rem 1.5rem', 
-                    borderRadius: 'var(--radius-lg)', 
-                    boxShadow: 'var(--shadow-hover)', 
-                    maxWidth: '300px',
-                    display: 'flex',
-                    alignItems: 'flex-start',
-                    gap: '0.75rem',
-                    border: '1px solid var(--color-gray-200)'
-                  }}
-                >
-                  <span style={{ fontSize: '2rem', lineHeight: 1, color: 'var(--color-mint-green)', fontFamily: 'serif' }}>“</span>
-                  <p style={{ fontSize: '0.85rem', fontWeight: 700, color: 'var(--color-dark-green)', margin: 0, fontStyle: 'italic', lineHeight: 1.4 }}>
-                    "Small green actions today can create healthier, safer communities tomorrow."
-                  </p>
-                </div>
+                <div className="journey-compass"><span>N</span><div>✦</div><span>S</span></div>
               </div>
 
               {/* Right Side: Narrative */}
@@ -379,13 +364,13 @@ const AboutPage = () => {
                 >
                   <div 
                     style={{ 
-                      width: '6.5rem', 
-                      height: '6.5rem', 
+                      width: '7.5rem', 
+                      height: '7.5rem', 
                       borderRadius: '50%', 
                       overflow: 'hidden', 
                       marginBottom: '1.5rem',
                       boxShadow: 'var(--shadow-md)',
-                      border: '3px solid var(--color-light-mint)'
+                      border: '4px solid var(--color-light-mint)'
                     }}
                   >
                     <img 

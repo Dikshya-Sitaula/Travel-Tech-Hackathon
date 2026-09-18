@@ -88,22 +88,6 @@ export const DashboardHome = () => {
             Your personal hub for discovering Nepal, staying safe, and managing your trips.
           </p>
         </div>
-
-        <Button 
-          onClick={handleLogout} 
-          variant="outline" 
-          style={{ 
-            borderColor: 'var(--color-red)', 
-            color: 'var(--color-red)', 
-            borderRadius: 'var(--radius-full)',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '0.5rem',
-            padding: '0.65rem 1.25rem'
-          }}
-        >
-          <LogOut size={16} /> Sign Out
-        </Button>
       </div>
 
       {/* Main 5 Cards Grid */}
@@ -272,13 +256,6 @@ export const DashboardHome = () => {
             </div>
           </div>
 
-          <Button 
-            onClick={handleLogout}
-            variant="outline"
-            style={{ borderColor: 'var(--color-red)', color: 'var(--color-red)', borderRadius: 'var(--radius-full)' }}
-          >
-            <LogOut size={16} /> Logout Session
-          </Button>
         </div>
       </Card>
 
