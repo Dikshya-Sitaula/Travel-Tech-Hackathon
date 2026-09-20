@@ -4,12 +4,26 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host 0.0.0.0 --port 5174 --strictPort",
+    "model:start": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/start-ollama.ps1",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "android:add": "cap add android",
+    "android:sync": "npm run build && cap sync android",
+    "android:open": "cap open android",
+    "android:demo": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/android-demo.ps1",
+    "android:install": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/install-android.ps1"
   },
   "dependencies": {
+    "@capacitor-community/bluetooth-le": "^8.3.0",
+    "@capacitor/android": "^8.5.2",
+    "@capacitor/camera": "^8.2.4",
+    "@capacitor/core": "^8.5.2",
+    "@capacitor/geolocation": "^8.2.2",
+    "@capacitor/network": "^8.0.1",
+    "@capacitor/splash-screen": "^8.0.2",
+    "@capacitor/status-bar": "^8.0.3",
     "leaflet": "^1.9.4",
     "lucide-react": "^0.368.0",
     "react": "^18.3.1",
@@ -18,6 +32,7 @@
     "react-router-dom": "^6.22.3"
   },
   "devDependencies": {
+    "@capacitor/cli": "^8.5.2",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react": "^4.3.1",
@@ -25,6 +40,7 @@
     "eslint-plugin-react": "^7.37.0",
     "eslint-plugin-react-hooks": "^5.1.0-rc.0",
     "eslint-plugin-react-refresh": "^0.4.12",
+    "typescript": "^7.0.2",
     "vite": "^5.4.8"
   }
 }

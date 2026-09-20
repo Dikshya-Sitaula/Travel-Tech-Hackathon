@@ -1,0 +1,10 @@
+{
+  "name": "YatraX Nepal Travel Companion",
+  "short_name": "YatraX",
+  "start_url": "/dashboard",
+  "display": "standalone",
+  "background_color": "#f4f8f6",
+  "theme_color": "#0d3027",
+  "description": "Offline-ready Nepal travel, safety, and SOS companion.",
+  "icons": [{ "src": "/assets/logo.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" }]
+}

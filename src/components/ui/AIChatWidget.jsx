@@ -52,7 +52,9 @@ export const AIChatWidget = () => {
     setLoading(true);
 
     try {
-      const aiResponse = await sendAssistantMessage(textToSend);
+      let savedTrip = null;
+      try { savedTrip = JSON.parse(localStorage.getItem('yatrax_trip') || 'null'); } catch { savedTrip = null; }
+      const aiResponse = await sendAssistantMessage(textToSend, savedTrip, messages, 'online');
       setMessages(prev => [
         ...prev,
         {
@@ -61,13 +63,14 @@ export const AIChatWidget = () => {
           text: aiResponse.text
         }
       ]);
-    } catch (e) {
+    } catch (error) {
       setMessages(prev => [
         ...prev,
         {
           id: Date.now() + 1,
           isUser: false,
-          text: "I am ready to help you plan your journey in Nepal. What specific destination or activity would you like to know about?"
+          text: `Unable to answer: ${error?.message || 'Online AI is unavailable.'}`,
+          isError: true
         }
       ]);
     } finally {

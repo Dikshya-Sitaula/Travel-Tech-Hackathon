@@ -1,0 +1,75 @@
+.admin-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.admin-sos-row {
+  display: grid;
+  grid-template-columns: minmax(155px, .8fr) minmax(220px, 1.2fr) minmax(150px, .8fr);
+  gap: 1rem;
+  padding: 1rem 1.3rem;
+  border-bottom: 1px solid var(--color-gray-200);
+  align-items: center;
+}
+
+.admin-readiness-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: .8rem;
+}
+
+@media (max-width: 720px) {
+  .admin-topbar { grid-template-columns: 1fr auto; gap: .75rem; }
+  .admin-topbar nav { grid-column: 1 / -1; order: 3; justify-content: flex-start; overflow-x: auto; flex-wrap: nowrap; padding-bottom: .2rem; }
+  .admin-topbar nav a { white-space: nowrap; }
+  .admin-account div { display: none; }
+  .admin-content { padding-top: 1.25rem; }
+  .admin-sos-row {
+    grid-template-columns: 1fr;
+    gap: .55rem;
+  }
+
+  .admin-sos-meta {
+    text-align: left !important;
+  }
+
+  .admin-sos-time {
+    justify-content: flex-start !important;
+  }
+}
+.admin-shell {
+  min-height: 100vh;
+  background: #f4f8f6;
+}
+
+.admin-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  min-height: 72px;
+  padding: .7rem clamp(1rem, 3vw, 2.5rem);
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 1.5rem;
+  color: white;
+  background: #0d3027;
+  box-shadow: 0 6px 20px rgba(8, 47, 39, .16);
+}
+
+.admin-brand, .admin-account, .admin-topbar nav, .admin-topbar a {
+  display: flex;
+  align-items: center;
+}
+
+.admin-brand { gap: .65rem; }
+.admin-brand img { width: 42px; height: 38px; object-fit: contain; background: white; border-radius: .55rem; padding: .25rem; }
+.admin-brand span, .admin-account span { display: block; font-size: .7rem; color: rgba(255,255,255,.65); }
+.admin-topbar nav { justify-content: center; gap: .35rem; flex-wrap: wrap; }
+.admin-topbar a { gap: .4rem; padding: .55rem .7rem; border-radius: .55rem; color: rgba(255,255,255,.72); font-size: .82rem; font-weight: 700; }
+.admin-topbar a.active, .admin-topbar a:hover { color: white; background: rgba(255,255,255,.12); }
+.admin-account { gap: .65rem; text-align: right; }
+.admin-account button { color: white; border: 1px solid rgba(255,255,255,.2); border-radius: .5rem; padding: .5rem; }
+.admin-content { width: min(1180px, calc(100% - 2rem)); margin: 0 auto; padding: 2rem 0; }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 
 // Public Pages
@@ -10,6 +10,7 @@ import SignUpPage from './pages/SignUpPage';
 
 // Layout & Protection
 import DashboardLayout from './components/layout/DashboardLayout';
+import AdminLayout from './components/layout/AdminLayout';
 import ProtectedRoute from './components/layout/ProtectedRoute';
 
 // Dashboard Pages
@@ -19,6 +20,7 @@ import ItineraryResultPage from './pages/dashboard/ItineraryResultPage';
 import OfflineAssistantPage from './pages/dashboard/OfflineAssistantPage';
 import LandmarkExplorerPage from './pages/dashboard/LandmarkExplorerPage';
 import SOSPage from './pages/dashboard/SOSPage';
+const AdminDashboardPage = lazy(() => import('./pages/dashboard/AdminDashboardPage'));
 
 // Context
 import { AuthProvider } from './context/AuthContext';
@@ -28,7 +30,7 @@ function App() {
   return (
     <AuthProvider>
       <TripProvider>
-        <Router>
+        <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
           <Routes>
             {/* Public Routes */}
             <Route path="/" element={<LandingPage />} />
@@ -54,6 +56,11 @@ function App() {
               <Route path="/landmark-explorer" element={<LandmarkExplorerPage />} />
               <Route path="/landmarks" element={<LandmarkExplorerPage />} />
               <Route path="/sos" element={<SOSPage />} />
+            </Route>
+            <Route element={<ProtectedRoute><AdminLayout /></ProtectedRoute>}>
+              <Route path="/admin" element={<Suspense fallback={<div>Loading admin dashboard…</div>}><AdminDashboardPage /></Suspense>} />
+              <Route path="/emergency-center" element={<Navigate to="/admin" replace />} />
+              <Route path="/revenue" element={<Navigate to="/admin" replace />} />
             </Route>
 
             {/* Fallback redirect to landing */}

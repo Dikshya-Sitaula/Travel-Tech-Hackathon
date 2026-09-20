@@ -15,29 +15,92 @@ import { Footer } from '../components/layout/Footer';
 import { Button } from '../components/ui/Button';
 import { Card } from '../components/ui/Card';
 
+const teamMembers = [
+  {
+    name: 'Dikshya Sitaula',
+    role: 'FRONTEND AND AI INTEGRATION',
+    avatar: '/assets/team/dikshya.jpg',
+    objectPosition: '50% 62%',
+    scale: 1.45
+  },
+  {
+    name: 'Devasish Bogati',
+    role: 'BACKEND AND MODEL TRAINING',
+    avatar: '/assets/team/devasish.jpg',
+    objectPosition: '50% 60%',
+    scale: 1.55
+  },
+  {
+    name: 'Shreya Thapa',
+    role: 'FRONTEND AND AI INTEGRATION',
+    avatar: '/assets/team/shreya.jpg',
+    objectPosition: '50% 47%',
+    scale: 1.55
+  },
+  {
+    name: 'Sulav Nepal',
+    role: 'BACKEND AND MODEL TRAINING',
+    avatar: '/assets/team/sulav.jpg',
+    objectPosition: '50% 58%',
+    scale: 1.32
+  }
+];
+
+const TeamMemberCard = ({ member }) => (
+  <Card
+    hoverable
+    style={{
+      padding: '2.25rem 1.5rem',
+      borderRadius: 'var(--radius-xl)',
+      backgroundColor: '#FFFFFF',
+      textAlign: 'center',
+      boxShadow: 'var(--shadow-md)',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center'
+    }}
+  >
+    <div
+      style={{
+        width: '7.5rem',
+        height: '7.5rem',
+        aspectRatio: '1 / 1',
+        flex: '0 0 auto',
+        borderRadius: '50%',
+        overflow: 'hidden',
+        marginBottom: '1.5rem',
+        boxShadow: 'var(--shadow-md)',
+        border: '4px solid var(--color-light-mint)',
+        backgroundColor: '#111315'
+      }}
+    >
+      <img
+        src={member.avatar}
+        alt={member.name}
+        style={{
+          display: 'block',
+          width: '100%',
+          height: '100%',
+          borderRadius: '50%',
+          objectFit: 'cover',
+          objectPosition: member.objectPosition,
+          transform: `scale(${member.scale})`,
+          transformOrigin: 'center'
+        }}
+      />
+    </div>
+
+    <h3 style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--color-dark-green)', marginBottom: '0.4rem' }}>
+      {member.name}
+    </h3>
+
+    <div style={{ fontSize: '0.725rem', fontWeight: 700, color: 'var(--color-secondary-text)', textTransform: 'uppercase', letterSpacing: '0.05em', lineHeight: 1.4 }}>
+      {member.role}
+    </div>
+  </Card>
+);
+
 const AboutPage = () => {
-  const teamMembers = [
-    {
-      name: 'Dikshya Sitaula',
-      role: 'FRONTEND DEV, AI INTEGRATION & CO-LEAD',
-      avatar: '/assets/team/dikshya.jpg'
-    },
-    {
-      name: 'Devasish Bogati',
-      role: 'BACKEND DEV, AI INTEGRATION & CO-LEAD',
-      avatar: '/assets/team/devasish.jpg'
-    },
-    {
-      name: 'Shreya Thapa',
-      role: 'DATABASE & MODEL TRAINING',
-      avatar: '/assets/team/shreya.jpg'
-    },
-    {
-      name: 'Sulav Nepal',
-      role: 'DATABASE & MODEL TRAINING',
-      avatar: '/assets/team/sulav.jpg'
-    }
-  ];
 
   const coreValues = [
     {
@@ -347,47 +410,8 @@ const AboutPage = () => {
             </div>
 
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1.5rem' }}>
-              {teamMembers.map((member, idx) => (
-                <Card 
-                  key={idx} 
-                  hoverable
-                  style={{ 
-                    padding: '2.25rem 1.5rem', 
-                    borderRadius: 'var(--radius-xl)', 
-                    backgroundColor: '#FFFFFF',
-                    textAlign: 'center',
-                    boxShadow: 'var(--shadow-md)',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center'
-                  }}
-                >
-                  <div 
-                    style={{ 
-                      width: '7.5rem', 
-                      height: '7.5rem', 
-                      borderRadius: '50%', 
-                      overflow: 'hidden', 
-                      marginBottom: '1.5rem',
-                      boxShadow: 'var(--shadow-md)',
-                      border: '4px solid var(--color-light-mint)'
-                    }}
-                  >
-                    <img 
-                      src={member.avatar} 
-                      alt={member.name} 
-                      style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
-                    />
-                  </div>
-
-                  <h3 style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--color-dark-green)', marginBottom: '0.4rem' }}>
-                    {member.name}
-                  </h3>
-
-                  <div style={{ fontSize: '0.725rem', fontWeight: 700, color: 'var(--color-secondary-text)', textTransform: 'uppercase', letterSpacing: '0.05em', lineHeight: 1.4 }}>
-                    {member.role}
-                  </div>
-                </Card>
+              {teamMembers.map((member) => (
+                <TeamMemberCard key={member.name} member={member} />
               ))}
             </div>
 

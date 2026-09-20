@@ -2,7 +2,7 @@ import React from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { 
   LayoutDashboard, Map, Bot, 
-  Camera, ShieldAlert, LogOut, X 
+  Camera, ShieldAlert, LogOut, X
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import '../../styles/dashboard.css';

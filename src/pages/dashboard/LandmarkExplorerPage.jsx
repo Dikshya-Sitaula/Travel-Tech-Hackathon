@@ -4,16 +4,27 @@ import { Button } from '../../components/ui/Button';
 import { Card } from '../../components/ui/Card';
 import { Badge } from '../../components/ui/Badge';
 import { analyzeLandmark } from '../../services/api';
+import { useAuth } from '../../context/AuthContext';
+import { usageService } from '../../services/usageService';
 
 const LandmarkExplorerPage = () => {
   const [selectedImage, setSelectedImage] = useState(null);
+  const [selectedFile, setSelectedFile] = useState(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [result, setResult] = useState(null);
   const fileInputRef = useRef(null);
+  const { user } = useAuth();
+  const [planUsage, setPlanUsage] = useState(null);
+  const [error, setError] = useState('');
+
+  React.useEffect(() => {
+    if (user?.email) usageService.getUsage(user.email).then(setPlanUsage).catch(() => {});
+  }, [user?.email]);
 
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
+      setSelectedFile(file);
       const reader = new FileReader();
       reader.onload = (e) => setSelectedImage(e.target.result);
       reader.readAsDataURL(file);
@@ -23,12 +34,21 @@ const LandmarkExplorerPage = () => {
 
   const handleIdentify = async () => {
     if (!selectedImage) return;
-    
+    setError('');
     setIsAnalyzing(true);
-    const mockFile = { name: 'landmark_photo.jpg' };
-    const data = await analyzeLandmark(mockFile);
-    setResult(data);
-    setIsAnalyzing(false);
+    try {
+      const latestUsage = await usageService.getUsage(user.email);
+      if (latestUsage.limits.landmark !== null && latestUsage.usage.landmark >= latestUsage.limits.landmark) {
+        throw new Error('Your free landmark scan has been used. Upgrade to Premium for unlimited scans.');
+      }
+      const data = await analyzeLandmark(selectedFile);
+      setPlanUsage(await usageService.consume(user.email, 'landmark'));
+      setResult(data);
+    } catch (analysisError) {
+      setError(analysisError.message || 'Unable to analyze this landmark.');
+    } finally {
+      setIsAnalyzing(false);
+    }
   };
 
   return (
@@ -38,7 +58,10 @@ const LandmarkExplorerPage = () => {
           <Camera size={28} color="var(--color-primary-green)" /> Landmark Explorer
         </h1>
         <p style={{ color: 'var(--color-secondary-text)' }}>Identify Nepalese landmarks from an uploaded photo or camera capture.</p>
+        {planUsage && <div style={{ display: 'inline-flex', marginTop: '.7rem', padding: '.45rem .7rem', borderRadius: '999px', background: 'var(--color-light-mint)', color: 'var(--color-dark-green)', fontSize: '.78rem', fontWeight: 700 }}>{planUsage.plan === 'premium' ? 'Premium · Unlimited scans' : `${planUsage.usage.landmark} of ${planUsage.limits.landmark} free scan used`}</div>}
       </div>
+
+      {error && <div role="alert" style={{ padding: '.8rem 1rem', marginBottom: '1rem', borderRadius: 'var(--radius-md)', color: '#B91C1C', background: '#FEF2F2', border: '1px solid #FECACA' }}>{error}</div>}
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '2rem' }}>
         
@@ -76,14 +99,14 @@ const LandmarkExplorerPage = () => {
                 <img src={selectedImage} alt="Selected landmark preview" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
               </div>
               <div style={{ display: 'flex', gap: '0.75rem' }}>
-                <Button variant="outline" onClick={() => { setSelectedImage(null); setResult(null); }} fullWidth>Change Image</Button>
+                <Button variant="outline" onClick={() => { setSelectedImage(null); setSelectedFile(null); setResult(null); }} fullWidth>Change Image</Button>
                 <Button variant="primary" onClick={handleIdentify} disabled={isAnalyzing || result} fullWidth>
                   {isAnalyzing ? 'Analyzing...' : 'Analyze Landmark ✨'}
                 </Button>
               </div>
             </div>
           )}
-          <input type="file" ref={fileInputRef} onChange={handleImageUpload} accept="image/*" style={{ display: 'none' }} />
+          <input type="file" ref={fileInputRef} onChange={handleImageUpload} accept="image/*" capture="environment" style={{ display: 'none' }} />
         </Card>
 
         {/* Loading State */}

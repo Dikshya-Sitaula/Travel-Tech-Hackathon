@@ -39,6 +39,12 @@ export const TripProvider = ({ children }) => {
     localStorage.setItem('yatrax_offline_ready', 'true');
   };
 
+  const removeOfflineCopy = () => {
+    localStorage.removeItem('yatrax_offline_itinerary');
+    localStorage.removeItem('yatrax_offline_ready');
+    setIsOfflineReady(false);
+  };
+
   return (
     <TripContext.Provider value={{ 
       currentTrip, 
@@ -47,7 +53,8 @@ export const TripProvider = ({ children }) => {
       preferences, 
       setPreferences,
       isOfflineReady,
-      markOfflineReady
+      markOfflineReady,
+      removeOfflineCopy
     }}>
       {children}
     </TripContext.Provider>

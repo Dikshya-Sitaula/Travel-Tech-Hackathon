@@ -12,8 +12,8 @@ const DashboardLayout = () => {
       
       <div className="dashboard-main">
         <div className="mobile-topbar">
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: 700, color: 'var(--color-dark-green)', fontFamily: 'var(--font-heading)' }}>
-            <img src="/assets/logo.png" alt="YatraX Logo" style={{ height: '1.75rem', width: 'auto' }} /> YatraX
+          <div style={{ display: 'flex', alignItems: 'center', color: 'var(--color-dark-green)' }}>
+            <img src="/assets/logo.png" alt="YatraX Logo" style={{ height: '2.25rem', width: 'auto', objectFit: 'contain' }} />
           </div>
           <button onClick={() => setSidebarOpen(true)} style={{ color: 'var(--color-dark-green)' }} aria-label="Open navigation menu">
             <Menu />
